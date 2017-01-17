@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.AppBarOverlay">
+    <LinearLayout
+        android:paddingLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+        <ImageView
+            android:padding="1dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/sports1"/>
+        <TextView
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Confirmar Asistencia"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:background="@color/colorPrimary"
+                android:layout_weight="7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@drawable/shutdown_96"
+                android:onClick="salirApp"/>
+            <TextView
+                android:textSize="11sp"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Salir"
+                android:gravity="center|top"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/salir"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:onClick="salirApp"-->
+            <!--/>-->
+    </LinearLayout>
+
+
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+    <!--app:logo="@drawable/sports1"-->
+    <!--app:title="Control de Asistencia"-->
+    <!--app:titleTextColor="@android:color/white"-->
+    <!--/>-->
+
+</android.support.design.widget.AppBarLayout>

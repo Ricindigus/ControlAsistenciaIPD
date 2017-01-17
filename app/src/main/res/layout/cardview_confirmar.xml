@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/alumnoCard"
+    android:layout_height="50dp"
+    android:layout_width="match_parent"
+    cardview:cardCornerRadius="0dp"
+    cardview:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        >
+        <TextView
+            android:id="@+id/cardviewAsistenciaNumero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1."
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:id="@+id/cardViewAsistenciaNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Morales Retamozo Ricardo"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+
+            android:id="@+id/cardViewAsistenciaEstado"
+            android:text="F"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
