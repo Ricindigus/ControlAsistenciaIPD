@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class AsistenciaActivity extends AppCompatActivity {
 
-    String hostIpdDesarrollo = "http://10.10.118.16//WebServiceAndroid/";
+    String hostIpdDesarrollo = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
@@ -50,9 +50,6 @@ public class AsistenciaActivity extends AppCompatActivity {
     String fechaHoy="";
     ArrayList<String> idEventos = new ArrayList<String>();
     ArrayList<Alumno> items=new ArrayList<Alumno>();
-//    ArrayList<Alumno> item1=new ArrayList<Alumno>();
-//    ArrayList<Alumno> item2=new ArrayList<Alumno>();
-//    ArrayList<Alumno> item3=new ArrayList<Alumno>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

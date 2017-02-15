@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class GuardarActivity extends AppCompatActivity {
-    String hostIpdDesarrollo = "http://10.10.118.16//WebServiceAndroid/";
+    String hostIpdDesarrollo = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
