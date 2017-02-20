@@ -21,7 +21,7 @@
             android:layout_weight="5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Control de Asistencia"
+            android:text="Tomar Asistencia"
             android:textSize="20sp"
             android:textColor="@android:color/white"/>
         <LinearLayout

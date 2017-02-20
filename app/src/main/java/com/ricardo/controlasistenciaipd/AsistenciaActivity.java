@@ -262,7 +262,7 @@ public class AsistenciaActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         if (keyCode == event.KEYCODE_BACK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("¿Está seguro que desea salir? (Ningún dato o cambio se guardará)")
+            builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
                     .setTitle("Aviso")
                     .setCancelable(false)
                     .setNegativeButton("No",
@@ -274,7 +274,9 @@ public class AsistenciaActivity extends AppCompatActivity {
                     .setPositiveButton("Sí",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    finishAffinity();
+                                    Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+                                    i.putExtra("cod", recuperado);
+                                    startActivity(i);
                                 }
                             });
             AlertDialog alert = builder.create();
@@ -286,7 +288,7 @@ public class AsistenciaActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     public void salirApp(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Está seguro que desea salir? (Ningún dato o cambio se guardará)")
+        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
                 .setTitle("Aviso")
                 .setCancelable(false)
                 .setNegativeButton("No",
@@ -298,7 +300,9 @@ public class AsistenciaActivity extends AppCompatActivity {
                 .setPositiveButton("Sí",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                finishAffinity();
+                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+                                i.putExtra("cod", recuperado);
+                                startActivity(i);
                             }
                         });
         AlertDialog alert = builder.create();

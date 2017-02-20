@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         int r = obtDatosJSON(resultado);
                         if (r == 1) {
-                            Intent i = new Intent(getApplicationContext(), AsistenciaActivity.class);
+                            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
                             i.putExtra("cod", codPonente+"");
                             startActivity(i);
                         } else {

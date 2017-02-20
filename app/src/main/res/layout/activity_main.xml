@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:text="Ingresar"
                 android:theme="@style/RaisedButtonDark"
-                android:onClick="goAsistencia"
                 />
         </LinearLayout>
     </LinearLayout>
