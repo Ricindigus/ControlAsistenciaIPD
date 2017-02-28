@@ -38,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/EditTextWhite"
                 >
-
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtDNI"
                     android:layout_width="match_parent"

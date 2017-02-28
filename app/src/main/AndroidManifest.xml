@@ -31,8 +31,10 @@
         <activity
             android:name=".FinalizarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MenuActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ReportesActivity"></activity>
     </application>
 
 </manifest>

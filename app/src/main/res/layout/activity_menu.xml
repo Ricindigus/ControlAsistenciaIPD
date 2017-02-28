@@ -14,25 +14,52 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
-            android:gravity="bottom|center"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-            <ImageView
-                android:tint="@color/colorPrimaryDark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sports1"/>
-            <TextView
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:layout_margin="10dp"
-                android:textSize="25dp"
-                android:gravity="center"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CONTROL \nDE \nASISTENCIA"/>
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sports1"/>
+                <TextView
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:textSize="25dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CONTROL \nDE \nASISTENCIA"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccionar Programa:"/>
+                <Spinner
+                    android:paddingLeft="5dp"
+                    android:id="@+id/spHorario"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                    android:backgroundTint="@color/colorAccent"
+                    >
+                </Spinner>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:gravity="top|center"
@@ -82,7 +109,8 @@
                         android:scaleType="fitCenter"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:onClick="goReporte"/>
                     <TextView
                         android:gravity="center"
                         android:textSize="20sp"

@@ -31,7 +31,9 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
     }
     public void goReporte(View view){
-
+        Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
+        i.putExtra("cod", recuperado);
+        startActivity(i);
     }
     @SuppressLint("NewApi")
     public void salirApp(View view){
