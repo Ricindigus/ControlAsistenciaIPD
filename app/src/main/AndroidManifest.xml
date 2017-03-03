@@ -34,7 +34,17 @@
         <activity
             android:name=".MenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ReportesActivity"></activity>
+        <activity android:name=".ReporteGeneralActivity" />
+        <activity android:name=".ReporteAlumnoActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".ReportesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ReportesActivity" />
+        </activity>
     </application>
 
 </manifest>

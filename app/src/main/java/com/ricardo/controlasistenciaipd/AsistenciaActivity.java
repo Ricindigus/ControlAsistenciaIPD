@@ -1,6 +1,7 @@
 package com.ricardo.controlasistenciaipd;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -39,86 +40,124 @@ public class AsistenciaActivity extends AppCompatActivity {
     RecyclerView recycler;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager lManager;
-    TextView txtPrograma;
-    TextView txtPuntoDesarrollo;
-    TextView txtDisciplina;
-    TextView txtFecha;
-    Spinner spHorarios;
+    TextView txtDocente, txtDisciplinaFecha;
+    Spinner spHorarios, spComplejos;
 
     String recuperado="";
     String codDisciplinaEvento="";
     String fechaHoy="";
     ArrayList<String> idEventos = new ArrayList<String>();
-    ArrayList<Alumno> items=new ArrayList<Alumno>();
+    ArrayList<Alumno> items = new ArrayList<Alumno>();
+
+    ArrayList<String> horarios = new ArrayList<String>();
+    ArrayList<String> complejos = new ArrayList<String>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistencia);
+        horarios.add("LUN/MIE/VIE 14:00-15:00");
+        horarios.add("LUN/MIE/VIE 15:00-16:00");
+        horarios.add("LUN/MIE/VIE 16:00-17:00");
+        horarios.add("MAR/JUE 14:00-15:00");
+        horarios.add("MAR/JUE 15:00-16:00");
+        horarios.add("MAR/JUE 16:00-17:00");
+        horarios.add("SAB 08:00-09:00");
+        horarios.add("SAB 09:00-10:00");
+        horarios.add("SAB 10:00-11:00");
+        complejos.add("ESTADIO NACIONAL");
+        complejos.add("ESTADIO DELLE ALPHI");
+        complejos.add("ESTADIO CAMP NOU");
+        complejos.add("EMIRATES STADIUM");
+        complejos.add("ESTADIO SANTIAGO BERNABEU");
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
         //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera!=null){
             recuperado=recupera.getString("cod");
         }
 
-        txtPrograma=(TextView)findViewById(R.id.txtPrograma);
-        txtFecha = (TextView)findViewById(R.id.txtFecha);
-        txtPuntoDesarrollo = (TextView)findViewById(R.id.txtPuntoDesarrollo);
-        txtDisciplina = (TextView)findViewById(R.id.txtDisciplina);
-        spHorarios=(Spinner)findViewById(R.id.spHorario);
+        txtDocente=(TextView)findViewById(R.id.txt_asistencia_docente);
+        txtDisciplinaFecha = (TextView)findViewById(R.id.txt_asistencia_disciplina_fecha);
+        spComplejos = (Spinner)findViewById(R.id.sp_asistencia_complejos);
+        spHorarios=(Spinner)findViewById(R.id.sp_asistencia_horarios);
+        cargarSpiner(complejos,0);
+        cargarSpiner(horarios,1);
+        cargarRecyclerView(items);
 
-        Thread tr2=new Thread(){
-            @Override
-            public void run() {
-                final View viewRaiz = findViewById(R.id.rootView);
-                final String resultado=traerDetalles(recuperado);
-                final String resultado2=traerHorarios(recuperado);
-                try{
-                    JSONArray json=new JSONArray(resultado2);
-                    codDisciplinaEvento = json.getJSONObject(0).getString("id_disciplinaevento");
-                    json=new JSONArray(resultado);
-                    fechaHoy = json.getJSONObject(0).getString("hoy");
-                }catch(Exception e){}
-                final String resultado3=traerAlumnos(codDisciplinaEvento);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        if(!resultado2.equals("[]")){
-                            mostrarDetalles(resultado);
-                            cargarSpiner(ArregloSpiner(resultado2));
-                            cargarRecyclerView(ArregloLista(resultado3));
-//                        }else{
-//                             salirSinDatos(viewRaiz);
-//                        }
-                    }
-                });
-            }
-        };
-        tr2.start();
-
-        spHorarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final int pos = position;
-                final String codigoEvento = idEventos.get(pos);
-                codDisciplinaEvento = codigoEvento;
-                Thread tr = new Thread() {
-                    @Override
-                    public void run() {
-                        final String resultado4 = traerAlumnos(codigoEvento);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cargarRecyclerView(ArregloLista(resultado4));
-                            }
-                        });
-                    }
-                };
-                tr.start();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+//        Thread tr2=new Thread(){
+//            @Override
+//            public void run() {
+//                final View viewRaiz = findViewById(R.id.rootView);
+//                final String resultado=traerDetalles(recuperado);
+//                final String resultado2=traerHorarios(recuperado);
+//                try{
+//                    JSONArray json=new JSONArray(resultado2);
+//                    codDisciplinaEvento = json.getJSONObject(0).getString("id_disciplinaevento");
+//                    json=new JSONArray(resultado);
+//                    fechaHoy = json.getJSONObject(0).getString("hoy");
+//                }catch(Exception e){}
+//                final String resultado3=traerAlumnos(codDisciplinaEvento);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        if(!resultado2.equals("[]")){
+//                            mostrarDetalles(resultado);
+//                            cargarSpiner(ArregloSpiner(resultado2));
+//                            cargarRecyclerView(ArregloLista(resultado3));
+////                        }else{
+////                             salirSinDatos(viewRaiz);
+////                        }
+//                    }
+//                });
+//            }
+//        };
+//        tr2.start();
+//
+//        spHorarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                final int pos = position;
+//                final String codigoEvento = idEventos.get(pos);
+//                codDisciplinaEvento = codigoEvento;
+//                Thread tr = new Thread() {
+//                    @Override
+//                    public void run() {
+//                        final String resultado4 = traerAlumnos(codigoEvento);
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                cargarRecyclerView(ArregloLista(resultado4));
+//                            }
+//                        });
+//                    }
+//                };
+//                tr.start();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {}
+//        });
     }
 
     public String traerDetalles(String codigo){
@@ -188,10 +227,8 @@ public class AsistenciaActivity extends AppCompatActivity {
         try{
             JSONArray json=new JSONArray(response);
             for(int i=0;i<json.length();i++){
-                txtPrograma.setText("Verano 2017");
-                txtFecha.setText(fechaHoy);
-                txtPuntoDesarrollo.setText(json.getJSONObject(i).getString("complejo"));
-                txtDisciplina.setText(json.getJSONObject(i).getString("disciplina"));
+                /*txtPuntoDesarrollo.setText(json.getJSONObject(i).getString("complejo"));
+                txtDisciplina.setText(json.getJSONObject(i).getString("disciplina"));*/
             }
         }catch(Exception e){}
     }
@@ -211,9 +248,11 @@ public class AsistenciaActivity extends AppCompatActivity {
         return listado;
     }
     //METODO QUE PERMITE CARGAR EL SPINNER
-    public void cargarSpiner(ArrayList<String> datos){
+
+    public void cargarSpiner(ArrayList<String> datos, int spinner){
         ArrayAdapter<String> adaptador=new ArrayAdapter<String>(this,R.layout.custom_spinner,datos);
-        spHorarios.setAdapter(adaptador);
+        if(spinner == 1) spHorarios.setAdapter(adaptador);
+        else spComplejos.setAdapter(adaptador);
     }
     public ArrayList<Alumno> ArregloLista(String response){
         try{

@@ -50,15 +50,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Seleccionar Programa:"/>
-                <Spinner
-                    android:paddingLeft="5dp"
-                    android:id="@+id/spHorario"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-                    android:backgroundTint="@color/colorAccent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/spinner_border"
+                    android:gravity="center"
                     >
-                </Spinner>
+                    <Spinner
+                        android:paddingLeft="5dp"
+                        android:id="@+id/spProgramas"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                        android:backgroundTint="@color/colorAccent"
+                        >
+                    </Spinner>
+                    </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

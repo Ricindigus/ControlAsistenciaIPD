@@ -24,7 +24,7 @@ public class ConfirmarActivity extends AppCompatActivity {
     String codigoPonente="";
     String codEvento="";
     String fechaHoy ="";
-    TextView txtFecha;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,6 @@ public class ConfirmarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirmar);
 
         asistenciaAlumnos = new ArrayList<Alumno>();
-
-        txtFecha = (TextView)findViewById(R.id.txtFecha);
 
         Bundle recupera = getIntent().getExtras();
 
@@ -44,7 +42,6 @@ public class ConfirmarActivity extends AppCompatActivity {
             fechaHoy = recupera.getString("fecha");
         }
 
-        txtFecha.setText(fechaHoy);
 
         recycler = (RecyclerView) findViewById(R.id.recyclerConfirmar);
         recycler.setHasFixedSize(true);

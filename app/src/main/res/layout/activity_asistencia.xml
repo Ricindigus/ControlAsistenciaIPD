@@ -11,6 +11,7 @@
 
     <include layout="@layout/actionbar_toolbar_asistencia"/>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,80 +21,112 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:weightSum="1"
         >
         <LinearLayout
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.68"
             android:background="@drawable/fondo_asistencia"
             >
             <LinearLayout
-                android:layout_margin="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#33212121">
-                <TextView
-                    android:id="@+id/txtPrograma"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Programa Verano 2017"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorIcons"
-                    />
-                <TextView
-                    android:layout_marginBottom="5dp"
-                    android:id="@+id/txtFecha"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="27/12/2016"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:textColor="@color/colorIcons"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/txtPuntoDesarrollo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Lima - Lima - Estadio Nacional"
-                    android:textColor="@color/colorIcons"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    />
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:padding="1dp"
-                    android:id="@+id/txtDisciplina"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Futbol"
-                    android:textColor="@color/colorIcons"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    />
                 <LinearLayout
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@drawable/spinner_border"
                     android:gravity="center"
-                    >
-                    <Spinner
-                        android:paddingLeft="5dp"
-                        android:id="@+id/spHorario"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txt_asistencia_programa"
                         android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-                        android:backgroundTint="@color/colorAccent"
+                        android:layout_height="wrap_content"
+                        android:text="Programa Invierno 2017"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorIcons"
+                        />
+                    <TextView
+                        android:id="@+id/txt_asistencia_docente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Docente: Alberto Rodríguez"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorIcons"
+                        />
+                    <TextView
+                        android:id="@+id/txt_asistencia_disciplina_fecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fútbol - 20/10/2017"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textColor="@color/colorIcons"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Complejo:"
+                        android:textColor="@color/colorIcons"
+                        android:textStyle="bold"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@drawable/spinner_border"
+                        android:gravity="center"
                         >
-                    </Spinner>
+                        <Spinner
+                            android:paddingLeft="5dp"
+                            android:id="@+id/sp_asistencia_complejos"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                            android:backgroundTint="@color/colorAccent"
+                            >
+                        </Spinner>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Horario:"
+                        android:textColor="@color/colorIcons"
+                        android:textStyle="bold"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@drawable/spinner_border"
+                        android:gravity="center"
+                        >
+                        <Spinner
+                            android:paddingLeft="5dp"
+                            android:id="@+id/sp_asistencia_horarios"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                            android:backgroundTint="@color/colorAccent"
+                            >
+                        </Spinner>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -101,27 +134,24 @@
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            android:layout_weight="0.32"
-            android:weightSum="1">
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.15"
-                android:weightSum="1">
+                android:layout_height="0dp"
+                android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:weightSum="7">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary">
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="N°"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
                         android:layout_weight="0"
@@ -129,8 +159,9 @@
                         android:paddingLeft="10dp"
                         />
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Nombres"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
@@ -139,8 +170,9 @@
                         android:textAlignment="center"
                         />
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Asistencia"
                         android:textSize="15sp"
                         android:textColor="@android:color/white"
@@ -150,9 +182,9 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:orientation="vertical"
-                    android:layout_weight="0.1">
+                    android:layout_weight="9">
                     <android.support.v7.widget.RecyclerView
                         android:padding="3dp"
                         android:id="@+id/reciclador"
@@ -165,8 +197,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.85"
+                android:layout_height="wrap_content"
                 android:gravity="center">
                 <Button
                     android:id="@+id/btnGuardar"

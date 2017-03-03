@@ -72,25 +72,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Thread tr=new Thread(){
-            @Override
-            public void run() {
-                final String resultado=enviarDatosGET(txtDni.getText().toString(), txtPas.getText().toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int r = obtDatosJSON(resultado);
-                        if (r == 1) {
-                            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                            i.putExtra("cod", codPonente+"");
-                            startActivity(i);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Usuario o Password Incorrectos", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        };
-        tr.start();
+//        Thread tr=new Thread(){
+//            @Override
+//            public void run() {
+//                final String resultado=enviarDatosGET(txtDni.getText().toString(), txtPas.getText().toString());
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        int r = obtDatosJSON(resultado);
+//                        if (r == 1) {
+//                            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+//                            i.putExtra("cod", codPonente+"");
+//                            startActivity(i);
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "Usuario o Password Incorrectos", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//            }
+//        };
+//        tr.start();
+        Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+        i.putExtra("cod", 1234+"");
+        startActivity(i);
     }
 }
