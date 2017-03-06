@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -28,6 +30,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.Alumno;
+import com.ricardo.controlasistenciaipd.AlumnoAdapter;
+import com.ricardo.controlasistenciaipd.AlumnoReporte;
+import com.ricardo.controlasistenciaipd.AlumnoReporteAdapter;
 import com.ricardo.controlasistenciaipd.R;
 
 import java.util.ArrayList;
@@ -46,7 +52,11 @@ public class GeneralFragment extends Fragment {
     Spinner spComplejos;
     private ArrayList<String> complejos;
     private ArrayList<String> horarios;
-
+    private ArrayList<AlumnoReporte> alumnos;
+    RecyclerView recycler;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager lManager;
+    View view;
     public GeneralFragment() {
         // Required empty public constructor
     }
@@ -56,9 +66,11 @@ public class GeneralFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_general, container, false);
+        view = inflater.inflate(R.layout.fragment_general, container, false);
         horarios = new ArrayList<String>();
         complejos = new ArrayList<String>();
+        alumnos = new ArrayList<AlumnoReporte>();
+
         horarios.add("LUN 14:00-15:00,MIE 14:00-15:00,VIE 14:00-15:00,SAB 14:00-15:00");
         horarios.add("LUN 15:00-16:00,MIE 15:00-16:00,VIE 15:00-16:00");
         horarios.add("LUN 16:00-17:00,MIE 16:00-17:00,VIE 16:00-17:00");
@@ -68,11 +80,28 @@ public class GeneralFragment extends Fragment {
         horarios.add("SAB 08:00-09:00");
         horarios.add("SAB 09:00-10:00");
         horarios.add("SAB 10:00-11:00");
+
         complejos.add("ESTADIO NACIONAL");
         complejos.add("ESTADIO DELLE ALPHI");
         complejos.add("ESTADIO CAMP NOU");
         complejos.add("EMIRATES STADIUM");
         complejos.add("ESTADIO SANTIAGO BERNABEU");
+
+        boolean[] arrayAsistencias = {true,true,true,true,true,true,true,true,true};
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Denis Ricardo","Morales Retamozo",6,arrayAsistencias));
+        alumnos.add(new AlumnoReporte("Alan Arnold","Ramos Gonzales",7,arrayAsistencias));
 
         spHorarios = (Spinner)view.findViewById(R.id.sp_reporte_horario);
         spComplejos = (Spinner)view.findViewById(R.id.sp_reporte_complejo);
@@ -136,6 +165,7 @@ public class GeneralFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+        cargarRecyclerView(alumnos);
         return view;
     }
     public void cargarSpiner(ArrayList<String> datos, int spinner){
@@ -146,4 +176,18 @@ public class GeneralFragment extends Fragment {
             spHorarios.setAdapter(adaptador);
     }
 
+    public void cargarRecyclerView(ArrayList<AlumnoReporte> datos){
+
+        // Usar un administrador para LinearLayout
+        lManager = new LinearLayoutManager(getActivity());
+
+        // Crear un nuevo adaptador
+        adapter = new AlumnoReporteAdapter(datos);
+
+        // Obtener el Recycler
+        recycler = (RecyclerView) view.findViewById(R.id.recyclerview_reporte);
+        recycler.setHasFixedSize(true);
+        recycler.setLayoutManager(lManager);
+        recycler.setAdapter(adapter);
+    }
 }

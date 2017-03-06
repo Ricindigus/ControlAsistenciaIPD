@@ -267,14 +267,17 @@ public class AsistenciaActivity extends AppCompatActivity {
         return items;
     }
     public void cargarRecyclerView(ArrayList<Alumno> datos){
+
+        // Usar un administrador para LinearLayout
+        lManager = new LinearLayoutManager(this);
+
+        // Crear un nuevo adaptador
+        adapter = new AlumnoAdapter(datos);
+
         // Obtener el Recycler
         recycler = (RecyclerView) findViewById(R.id.reciclador);
         recycler.setHasFixedSize(true);
-        // Usar un administrador para LinearLayout
-        lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
-        // Crear un nuevo adaptador
-        adapter = new AlumnoAdapter(datos);
         recycler.setAdapter(adapter);
     }
     public void checkClick(View v){

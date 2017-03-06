@@ -13,23 +13,25 @@ import java.util.ArrayList;
  */
 
 public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdapter.AlumnoViewHolder> {
-    private ArrayList<Alumno> items;
+    private ArrayList<AlumnoReporte> items;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView numeroAlumno;
         public TextView nombreAlumno;
+        public TextView edadAlumno;
         public TextView asistenciaAlumno;
 
         public AlumnoViewHolder(View v) {
             super(v);
-            numeroAlumno = (TextView) v.findViewById(R.id.cardviewAsistenciaNumero);
-            nombreAlumno = (TextView) v.findViewById(R.id.cardViewAsistenciaNombre);
-            asistenciaAlumno = (TextView) v.findViewById(R.id.cardViewAsistenciaEstado);
+            numeroAlumno = (TextView) v.findViewById(R.id.cardview_reporte_numero);
+            nombreAlumno = (TextView) v.findViewById(R.id.cardview_reporte_nombre);
+            edadAlumno = (TextView) v.findViewById(R.id.cardview_reporte_edad);
+            asistenciaAlumno = (TextView) v.findViewById(R.id.cardview_reporte_asistencia);
         }
     }
 
-    public AlumnoReporteAdapter(ArrayList<Alumno> items) {
+    public AlumnoReporteAdapter(ArrayList<AlumnoReporte> items) {
         this.items = items;
     }
 
@@ -41,14 +43,22 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     @Override
     public AlumnoReporteAdapter.AlumnoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cardview_confirmar, viewGroup, false);
+                .inflate(R.layout.cardview_alumno_reporte, viewGroup, false);
         return new AlumnoReporteAdapter.AlumnoViewHolder(v);
     }
     @Override
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
         viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        if(items.get(i).getAsistencia() == true) viewHolder.asistenciaAlumno.setText("A");
-        else viewHolder.asistenciaAlumno.setText("F");
+        viewHolder.edadAlumno.setText(items.get(i).getEdad()+" años");
+        String asistencias = "";
+        String valorAsistencia = "";
+        for (int j = 0; j < items.get(i).getAsistencias().length; j++) {
+            if(items.get(i).getAsistencias()[j]) valorAsistencia = "A";
+            else valorAsistencia = "F";
+            if (j > 0) asistencias = asistencias + "-S" + (j+1) + ":" + valorAsistencia;
+            else asistencias = asistencias + "S" + (j+1) + ":" + valorAsistencia;
+        }
+        viewHolder.asistenciaAlumno.setText(asistencias);
     }
 }

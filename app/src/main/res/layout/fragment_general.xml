@@ -192,56 +192,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_reporte"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="N°"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp"
-                        android:layout_weight="0"
-                        android:textAlignment="center"
-                        android:paddingLeft="10dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombres"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp"
-                        android:paddingLeft="4dp"
-                        android:layout_weight="6"
-                        android:textAlignment="center"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Asistencia"
-                        android:textSize="15sp"
-                        android:textColor="@android:color/white"
-                        android:layout_weight="1"
-                        android:textAlignment="center"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    android:layout_weight="9">
-                    <android.support.v7.widget.RecyclerView
-                        android:padding="3dp"
-                        android:id="@+id/reciclador"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="1dp"
-                        android:scrollbars="vertical"
-                        android:background="@drawable/border_layout"/>
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/border_layout_black"
+                    android:padding="3dp"
+                    android:scrollbars="vertical" />
             </LinearLayout>
         </LinearLayout>
 
