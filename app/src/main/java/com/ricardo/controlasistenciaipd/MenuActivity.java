@@ -8,42 +8,118 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
 
+    String codEvento = "";
     String recuperado = "";
-    Spinner spProgramas;
+    Spinner spEventos;
     ArrayList<String> programas;
+    ArrayList<String> idEventos = new ArrayList<String>();
+    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
+    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
+    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        spProgramas = (Spinner)findViewById(R.id.spProgramas);
+        spEventos = (Spinner)findViewById(R.id.sp_menu_eventos);
         programas = new ArrayList<String>();
-        programas.add("Verano 2017");
-        programas.add("Otoño 2017");
-        programas.add("Invierno 2017");
-        programas.add("Primavera 2017");
+//        programas.add("Verano 2017");
+//        programas.add("Otoño 2017");
+//        programas.add("Invierno 2017");
+//        programas.add("Primavera 2017");
         //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera!=null){
             recuperado=recupera.getString("cod");
         }
-        cargarSpiner(programas);
+        //cargarSpiner(programas);
+
+        Thread trEventos=new Thread(){
+            @Override
+            public void run() {
+                final String resultado=traerEventos();
+                try{
+                    cargarSpiner(ArregloSpiner(resultado));
+
+                }catch(Exception e){}
+            }
+        };
+        trEventos.start();
+
+        spEventos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int pos = position;
+                String codigoEvento = idEventos.get(pos);
+                codEvento = codigoEvento;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    public String traerEventos(){
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try{
+            url = new URL(hostIpdDesarrollo + "ListarEventos.php");
+            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+            respuesta=conection.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK){
+                InputStream in=new BufferedInputStream(conection.getInputStream());
+                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+                while((linea=reader.readLine())!=null){
+                    resul.append(linea);
+                }
+            }
+        }catch(Exception e){}
+        return resul.toString();
+    }
+
+    public ArrayList<String> ArregloSpiner(String response){
+        ArrayList<String> listado=new ArrayList<String>();
+        try{
+            JSONArray json=new JSONArray(response);
+            String texto="";
+            for(int i=0; i<json.length();i++){
+                codEvento = json.getJSONObject(i).getString("id_evento");
+                idEventos.add(codEvento);
+                texto=json.getJSONObject(i).getString("descripcion");
+                listado.add(texto);
+            }
+        }catch(Exception e){}
+        return listado;
     }
 
     public void cargarSpiner(ArrayList<String> datos){
         ArrayAdapter<String> adaptador=new ArrayAdapter<String>(this,R.layout.custom_spinner,datos);
-        spProgramas.setAdapter(adaptador);
+        spEventos.setAdapter(adaptador);
     }
 
     public void goAsistencia(View view){
         Intent i = new Intent(getApplicationContext(), AsistenciaActivity.class);
         i.putExtra("cod", recuperado);
+        i.putExtra("eve", codEvento);
         startActivity(i);
     }
     public void goReporte(View view){

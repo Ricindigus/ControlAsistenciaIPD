@@ -58,7 +58,7 @@
                     >
                     <Spinner
                         android:paddingLeft="5dp"
-                        android:id="@+id/spProgramas"
+                        android:id="@+id/sp_menu_eventos"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"

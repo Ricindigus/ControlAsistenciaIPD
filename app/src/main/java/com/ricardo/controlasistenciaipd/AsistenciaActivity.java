@@ -1,7 +1,6 @@
 package com.ricardo.controlasistenciaipd;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -14,12 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -33,20 +29,23 @@ import java.util.ArrayList;
 
 public class AsistenciaActivity extends AppCompatActivity {
 
-    String hostIpdDesarrollo = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
+    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     RecyclerView recycler;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager lManager;
-    TextView txtDocente, txtDisciplinaFecha;
+    TextView txtEvento, txtDocente, txtDisciplinaFecha;
     Spinner spHorarios, spComplejos;
 
-    String recuperado="";
-    String codDisciplinaEvento="";
+    String recuperadoCodDocente="";
+    String recuperadoCodEvento = "";
+    String codHorario="";
+    String codComplejo ="";
     String fechaHoy="";
-    ArrayList<String> idEventos = new ArrayList<String>();
+    ArrayList<String> idComplejos = new ArrayList<String>();
+    ArrayList<String> idHorarios = new ArrayList<String>();
     ArrayList<Alumno> items = new ArrayList<Alumno>();
 
     ArrayList<String> horarios = new ArrayList<String>();
@@ -58,106 +57,130 @@ public class AsistenciaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistencia);
-        horarios.add("LUN/MIE/VIE 14:00-15:00");
-        horarios.add("LUN/MIE/VIE 15:00-16:00");
-        horarios.add("LUN/MIE/VIE 16:00-17:00");
-        horarios.add("MAR/JUE 14:00-15:00");
-        horarios.add("MAR/JUE 15:00-16:00");
-        horarios.add("MAR/JUE 16:00-17:00");
-        horarios.add("SAB 08:00-09:00");
-        horarios.add("SAB 09:00-10:00");
-        horarios.add("SAB 10:00-11:00");
-        complejos.add("ESTADIO NACIONAL");
-        complejos.add("ESTADIO DELLE ALPHI");
-        complejos.add("ESTADIO CAMP NOU");
-        complejos.add("EMIRATES STADIUM");
-        complejos.add("ESTADIO SANTIAGO BERNABEU");
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        horarios.add("LUN/MIE/VIE 14:00-15:00");
+//        horarios.add("LUN/MIE/VIE 15:00-16:00");
+//        horarios.add("LUN/MIE/VIE 16:00-17:00");
+//        horarios.add("MAR/JUE 14:00-15:00");
+//        horarios.add("MAR/JUE 15:00-16:00");
+//        horarios.add("MAR/JUE 16:00-17:00");
+//        horarios.add("SAB 08:00-09:00");
+//        horarios.add("SAB 09:00-10:00");
+//        horarios.add("SAB 10:00-11:00");
+//        complejos.add("ESTADIO NACIONAL");
+//        complejos.add("ESTADIO DELLE ALPHI");
+//        complejos.add("ESTADIO CAMP NOU");
+//        complejos.add("EMIRATES STADIUM");
+//        complejos.add("ESTADIO SANTIAGO BERNABEU");
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
+//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
+
         //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera!=null){
-            recuperado=recupera.getString("cod");
+            recuperadoCodDocente=recupera.getString("cod");
+            recuperadoCodEvento = recupera.getString("eve");
         }
 
-        txtDocente=(TextView)findViewById(R.id.txt_asistencia_docente);
+        txtEvento = (TextView)findViewById(R.id.txt_asistencia_evento);
+        txtDocente = (TextView)findViewById(R.id.txt_asistencia_docente);
         txtDisciplinaFecha = (TextView)findViewById(R.id.txt_asistencia_disciplina_fecha);
         spComplejos = (Spinner)findViewById(R.id.sp_asistencia_complejos);
         spHorarios=(Spinner)findViewById(R.id.sp_asistencia_horarios);
-        cargarSpiner(complejos,0);
-        cargarSpiner(horarios,1);
-        cargarRecyclerView(items);
+//        cargarSpiner(complejos,0);
+//        cargarSpiner(horarios,1);
+//        cargarRecyclerView(items);
 
-//        Thread tr2=new Thread(){
-//            @Override
-//            public void run() {
-//                final View viewRaiz = findViewById(R.id.rootView);
+        Thread tr2=new Thread(){
+            @Override
+            public void run() {
 //                final String resultado=traerDetalles(recuperado);
-//                final String resultado2=traerHorarios(recuperado);
-//                try{
-//                    JSONArray json=new JSONArray(resultado2);
-//                    codDisciplinaEvento = json.getJSONObject(0).getString("id_disciplinaevento");
+                final String resultado1=traerComplejos(recuperadoCodEvento, recuperadoCodDocente);
+                final String resultado2=traerHorarios(recuperadoCodEvento, codComplejo,recuperadoCodDocente);
+                try{
+                    JSONArray json=new JSONArray(resultado2);
+                    codHorario = json.getJSONObject(0).getString("id_disciplinaevento");
 //                    json=new JSONArray(resultado);
 //                    fechaHoy = json.getJSONObject(0).getString("hoy");
-//                }catch(Exception e){}
-//                final String resultado3=traerAlumnos(codDisciplinaEvento);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        if(!resultado2.equals("[]")){
+                }catch(Exception e){}
+                final String resultado3=traerAlumnos(recuperadoCodEvento, codHorario);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 //                            mostrarDetalles(resultado);
-//                            cargarSpiner(ArregloSpiner(resultado2));
-//                            cargarRecyclerView(ArregloLista(resultado3));
-////                        }else{
-////                             salirSinDatos(viewRaiz);
-////                        }
-//                    }
-//                });
-//            }
-//        };
-//        tr2.start();
+                        cargarSpiner(ArregloSpiner(resultado1,0),0);
+                        cargarSpiner(ArregloSpiner(resultado2,1),1);
+                        cargarRecyclerView(ArregloLista(resultado3));
+                    }
+                });
+            }
+        };
+        tr2.start();
 //
-//        spHorarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                final int pos = position;
-//                final String codigoEvento = idEventos.get(pos);
-//                codDisciplinaEvento = codigoEvento;
-//                Thread tr = new Thread() {
-//                    @Override
-//                    public void run() {
-//                        final String resultado4 = traerAlumnos(codigoEvento);
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                cargarRecyclerView(ArregloLista(resultado4));
-//                            }
-//                        });
-//                    }
-//                };
-//                tr.start();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {}
-//        });
+        spHorarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final int pos = position;
+                final String codigoHorario = idHorarios.get(pos);
+                codHorario = codigoHorario;
+                Thread tr = new Thread() {
+                    @Override
+                    public void run() {
+                        final String resultado4 = traerAlumnos(recuperadoCodEvento, codigoHorario);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cargarRecyclerView(ArregloLista(resultado4));
+                            }
+                        });
+                    }
+                };
+                tr.start();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spComplejos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final int pos = position;
+                final String codigoComplejo = idComplejos.get(pos);
+                codComplejo = codigoComplejo;
+                Thread tr = new Thread() {
+                    @Override
+                    public void run() {
+                        final String resultado4 = traerHorarios(recuperadoCodEvento, codigoComplejo,recuperadoCodDocente);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cargarSpiner(ArregloSpiner(resultado4,1),1);
+                            }
+                        });
+                    }
+                };
+                tr.start();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     public String traerDetalles(String codigo){
@@ -181,33 +204,13 @@ public class AsistenciaActivity extends AppCompatActivity {
         return resul.toString();
     }
 
-    public String traerHorarios(String codigo){
+    public String traerComplejos(String codigoEve, String codDoc){
         URL url=null;
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "listarhorarios.php?cod="+codigo);
-            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
-            respuesta=conection.getResponseCode();
-            resul=new StringBuilder();
-            if(respuesta==HttpURLConnection.HTTP_OK){
-                InputStream in=new BufferedInputStream(conection.getInputStream());
-                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
-            }
-        }catch(Exception e){}
-        return resul.toString();
-    }
-    public String traerAlumnos(String codigo){
-        URL url=null;
-        String linea="";
-        int respuesta=0;
-        StringBuilder resul=null;
-        try{
-            url = new URL(hostIpdDesarrollo + "listaralumnos.php?horario="+ codigo);
+            url = new URL(hostIpdDesarrollo + "ListarComplejos.php?ide="+codigoEve+"&cod="+codDoc);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
@@ -222,7 +225,48 @@ public class AsistenciaActivity extends AppCompatActivity {
         return resul.toString();
     }
 
-    //METODO QUE PERMITE MOSTRAR EL NOMBRE DEL ALUMNO LOGEADO
+    public String traerHorarios(String codEve, String codCom, String codDoc){
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try{
+            url = new URL(hostIpdDesarrollo + "ListarHorarios.php?ide=" + codEve + "&cpj=" + codCom + "&cod=" + codDoc);
+            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+            respuesta=conection.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK){
+                InputStream in=new BufferedInputStream(conection.getInputStream());
+                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+                while((linea=reader.readLine())!=null){
+                    resul.append(linea);
+                }
+            }
+        }catch(Exception e){}
+        return resul.toString();
+    }
+    public String traerAlumnos(String codEve, String codHor){
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try{
+            url = new URL(hostIpdDesarrollo + "ListarAlumnos.php?ide=" + codEve + "&hor="+ codHor);
+            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+            respuesta=conection.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK){
+                InputStream in=new BufferedInputStream(conection.getInputStream());
+                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+                while((linea=reader.readLine())!=null){
+                    resul.append(linea);
+                }
+            }
+        }catch(Exception e){}
+        return resul.toString();
+    }
+
+    //METODO QUE PERMITE MOSTRAR EL NOMBRE
     public void mostrarDetalles(String response){
         try{
             JSONArray json=new JSONArray(response);
@@ -233,18 +277,31 @@ public class AsistenciaActivity extends AppCompatActivity {
         }catch(Exception e){}
     }
 
-    public ArrayList<String> ArregloSpiner(String response){
+    public ArrayList<String> ArregloSpiner(String response, int spinner){
         ArrayList<String> listado=new ArrayList<String>();
-        try{
-            JSONArray json=new JSONArray(response);
-            String texto="";
-            for(int i=0; i<json.length();i++){
-                codDisciplinaEvento = json.getJSONObject(i).getString("id_disciplinaevento");
-                idEventos.add(codDisciplinaEvento);
-                texto=json.getJSONObject(i).getString("horario");
-                listado.add(texto);
-            }
-        }catch(Exception e){}
+        if(spinner == 1){
+            try{
+                JSONArray json=new JSONArray(response);
+                String texto="";
+                for(int i=0; i<json.length();i++){
+                    codHorario = json.getJSONObject(i).getString("id_disciplinaevento");
+                    idHorarios.add(codHorario);
+                    texto=json.getJSONObject(i).getString("horario");
+                    listado.add(texto);
+                }
+            }catch(Exception e){}
+        }else{
+            try{
+                JSONArray json=new JSONArray(response);
+                String texto="";
+                for(int i=0; i<json.length();i++){
+                    codComplejo = json.getJSONObject(i).getString("id_complejo");
+                    idComplejos.add(codComplejo);
+                    texto=json.getJSONObject(i).getString("complejo");
+                    listado.add(texto);
+                }
+            }catch(Exception e){}
+        }
         return listado;
     }
     //METODO QUE PERMITE CARGAR EL SPINNER
@@ -292,8 +349,8 @@ public class AsistenciaActivity extends AppCompatActivity {
     public void goConfirmar(View view){
         Intent intent = new Intent(this, ConfirmarActivity.class);
         intent.putExtra("alumnos", items);
-        intent.putExtra("cod",recuperado);
-        intent.putExtra("evento", codDisciplinaEvento);
+        intent.putExtra("cod",recuperadoCodDocente);
+        intent.putExtra("evento", recuperadoCodEvento);
         intent.putExtra("fecha",fechaHoy);
         startActivity(intent);
     }
@@ -317,7 +374,7 @@ public class AsistenciaActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                    i.putExtra("cod", recuperado);
+                                    i.putExtra("cod", recuperadoCodDocente);
                                     startActivity(i);
                                 }
                             });
@@ -343,7 +400,7 @@ public class AsistenciaActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                i.putExtra("cod", recuperado);
+                                i.putExtra("cod", recuperadoCodDocente);
                                 startActivity(i);
                             }
                         });

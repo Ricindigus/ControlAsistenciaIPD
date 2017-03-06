@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
-    String hostIpdDesarrollo = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
+    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     Button btnIngresar;
     EditText txtDni,txtPas;
-    int codPonente = 0;
+    String codPonente = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url=new URL(hostIpdDesarrollo+"logueo.php?dni="+usu+"&pas="+pas);
+            url=new URL(hostIpdDesarrollo+"Logueo.php?dni="+usu+"&pas="+pas);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             JSONArray json=new JSONArray(response);
             for(int i=0;i<json.length();i++){
                 estadoFinal = Integer.parseInt(json.getJSONObject(i).getString("estado_final"));
-                codPonente = Integer.parseInt(json.getJSONObject(i).getString("id_ponente_final"));
+                codPonente = json.getJSONObject(i).getString("id_ponente_final");
             }
         }catch(Exception e){}
         return estadoFinal;
@@ -72,28 +72,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-//        Thread tr=new Thread(){
-//            @Override
-//            public void run() {
-//                final String resultado=enviarDatosGET(txtDni.getText().toString(), txtPas.getText().toString());
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        int r = obtDatosJSON(resultado);
-//                        if (r == 1) {
-//                            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-//                            i.putExtra("cod", codPonente+"");
-//                            startActivity(i);
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Usuario o Password Incorrectos", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
-//            }
-//        };
-//        tr.start();
-        Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-        i.putExtra("cod", 1234+"");
-        startActivity(i);
+        Thread tr=new Thread(){
+            @Override
+            public void run() {
+                final String resultado=enviarDatosGET(txtDni.getText().toString(), txtPas.getText().toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int r = obtDatosJSON(resultado);
+                        if (r == 1) {
+                            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+                            i.putExtra("cod", codPonente);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Usuario o Password Incorrectos", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        };
+        tr.start();
     }
 }
