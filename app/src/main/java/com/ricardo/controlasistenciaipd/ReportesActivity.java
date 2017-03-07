@@ -30,7 +30,7 @@ import com.ricardo.controlasistenciaipd.fragments.GeneralFragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Main2Activity extends AppCompatActivity {
+public class ReportesActivity extends AppCompatActivity {
 
 
     @Override

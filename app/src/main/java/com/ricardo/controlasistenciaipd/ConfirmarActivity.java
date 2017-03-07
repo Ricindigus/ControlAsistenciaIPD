@@ -20,29 +20,53 @@ public class ConfirmarActivity extends AppCompatActivity {
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager lManager;
-    private ArrayList<Alumno> asistenciaAlumnos;
-    String codigoPonente="";
-    String codEvento="";
-    String fechaHoy ="";
+    private TextView txtEvento;
+    private TextView txtComplejo;
+    private TextView txtDocente;
+    private TextView txtDisciplinaFecha;
+    private TextView txtHorario;
 
+    private String codigoPonente="";
+    private String codEvento="";
+    private String nomEvento = "";
+    private String nomComplejo = "";
+    private String nomDocente = "";
+    private String nomDisciplina = "";
+    private String nomHorario = "";
+    private String fechaHoy ="";
+    private ArrayList<Alumno> asistenciaAlumnos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmar);
-
         asistenciaAlumnos = new ArrayList<Alumno>();
-
         Bundle recupera = getIntent().getExtras();
-
         if(recupera != null){
-            asistenciaAlumnos = (ArrayList<Alumno>)recupera.getSerializable("alumnos");
             codigoPonente = recupera.getString("cod");
             codEvento = recupera.getString("evento");
+
+            nomEvento = recupera.getString("nombreEvento");
+            nomComplejo = recupera.getString("nombreComplejo");
+            nomDocente = recupera.getString("nombreDocente");
+            nomDisciplina = recupera.getString("nombreDisciplina");
+            nomHorario = recupera.getString("nombreHorario");
             fechaHoy = recupera.getString("fecha");
+
+            asistenciaAlumnos = (ArrayList<Alumno>)recupera.getSerializable("alumnos");
         }
 
+        txtEvento = (TextView)findViewById(R.id.txt_confirmar_evento);
+        txtComplejo = (TextView)findViewById(R.id.txt_confirmar_complejo);
+        txtDocente = (TextView)findViewById(R.id.txt_confirmar_docente);
+        txtDisciplinaFecha = (TextView)findViewById(R.id.txt_confirmar_disciplina_fecha);
+        txtHorario = (TextView)findViewById(R.id.txt_confirmar_horario);
 
+        txtEvento.setText(nomEvento);
+        txtComplejo.setText(nomComplejo);
+        txtDocente.setText(nomDocente);
+        txtDisciplinaFecha.setText(nomDisciplina + " - " + fechaHoy);
+        txtHorario.setText(nomHorario);
         recycler = (RecyclerView) findViewById(R.id.recyclerConfirmar);
         recycler.setHasFixedSize(true);
 

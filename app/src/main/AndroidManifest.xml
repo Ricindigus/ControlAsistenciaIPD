@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,13 +37,12 @@
         <activity android:name=".ReporteGeneralActivity" />
         <activity android:name=".ReporteAlumnoActivity" />
         <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
+            android:name=".ReportesActivity"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".ReportesActivity">
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ReportesActivity" />
+                android:value=".MenuActivity" />
         </activity>
     </application>
 

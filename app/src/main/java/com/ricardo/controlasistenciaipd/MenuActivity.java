@@ -25,9 +25,10 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity {
 
     String codEvento = "";
+    String nomEvento = "";
     String recuperado = "";
     Spinner spEventos;
-    ArrayList<String> programas;
+    ArrayList<String> nombresEventos = new ArrayList<String>();
     ArrayList<String> idEventos = new ArrayList<String>();
     String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
@@ -39,7 +40,6 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         spEventos = (Spinner)findViewById(R.id.sp_menu_eventos);
-        programas = new ArrayList<String>();
 //        programas.add("Verano 2017");
 //        programas.add("Otoño 2017");
 //        programas.add("Invierno 2017");
@@ -57,7 +57,6 @@ public class MenuActivity extends AppCompatActivity {
                 final String resultado=traerEventos();
                 try{
                     cargarSpiner(ArregloSpiner(resultado));
-
                 }catch(Exception e){}
             }
         };
@@ -67,8 +66,8 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int pos = position;
-                String codigoEvento = idEventos.get(pos);
-                codEvento = codigoEvento;
+                codEvento = idEventos.get(pos);
+                nomEvento = nombresEventos.get(pos);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -97,16 +96,20 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public ArrayList<String> ArregloSpiner(String response){
-        ArrayList<String> listado=new ArrayList<String>();
+        ArrayList<String> listado = new ArrayList<String>();
+        ArrayList<String> ids = new ArrayList<String>();
         try{
             JSONArray json=new JSONArray(response);
             String texto="";
             for(int i=0; i<json.length();i++){
                 codEvento = json.getJSONObject(i).getString("id_evento");
-                idEventos.add(codEvento);
-                texto=json.getJSONObject(i).getString("descripcion");
-                listado.add(texto);
+                ids.add(codEvento);
+                nomEvento=json.getJSONObject(i).getString("descripcion");
+                listado.add(nomEvento);
+
             }
+            nombresEventos = listado;
+            idEventos = ids;
         }catch(Exception e){}
         return listado;
     }
@@ -120,10 +123,11 @@ public class MenuActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), AsistenciaActivity.class);
         i.putExtra("cod", recuperado);
         i.putExtra("eve", codEvento);
+        i.putExtra("nomEve",nomEvento);
         startActivity(i);
     }
     public void goReporte(View view){
-        Intent i = new Intent(getApplicationContext(), Main2Activity.class);
+        Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
         i.putExtra("cod", recuperado);
         startActivity(i);
     }

@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
