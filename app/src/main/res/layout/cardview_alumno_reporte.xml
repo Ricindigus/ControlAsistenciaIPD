@@ -42,15 +42,6 @@
             android:textSize="15sp"
             android:textStyle="bold" />
             <TextView
-                android:id="@+id/cardview_reporte_edad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="5 años"
-                android:textColor="@color/colorAccent"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-            <TextView
                 android:id="@+id/cardview_reporte_asistencia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

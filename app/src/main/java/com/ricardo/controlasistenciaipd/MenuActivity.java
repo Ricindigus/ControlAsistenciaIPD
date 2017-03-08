@@ -54,10 +54,13 @@ public class MenuActivity extends AppCompatActivity {
         Thread trEventos=new Thread(){
             @Override
             public void run() {
-                final String resultado=traerEventos();
-                try{
-                    cargarSpiner(ArregloSpiner(resultado));
-                }catch(Exception e){}
+                final String resultado = traerEventos();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        cargarSpiner(ArregloSpiner(resultado));
+                    }
+                });
             }
         };
         trEventos.start();
@@ -106,7 +109,6 @@ public class MenuActivity extends AppCompatActivity {
                 ids.add(codEvento);
                 nomEvento=json.getJSONObject(i).getString("descripcion");
                 listado.add(nomEvento);
-
             }
             nombresEventos = listado;
             idEventos = ids;

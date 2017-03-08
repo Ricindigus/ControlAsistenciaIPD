@@ -26,7 +26,6 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
             super(v);
             numeroAlumno = (TextView) v.findViewById(R.id.cardview_reporte_numero);
             nombreAlumno = (TextView) v.findViewById(R.id.cardview_reporte_nombre);
-            edadAlumno = (TextView) v.findViewById(R.id.cardview_reporte_edad);
             asistenciaAlumno = (TextView) v.findViewById(R.id.cardview_reporte_asistencia);
         }
     }
@@ -50,7 +49,6 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
         viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        viewHolder.edadAlumno.setText(items.get(i).getEdad()+" años");
         String asistencias = "";
         String valorAsistencia = "";
         for (int j = 0; j < items.get(i).getAsistencias().length; j++) {
@@ -61,4 +59,5 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
         }
         viewHolder.asistenciaAlumno.setText(asistencias);
     }
+
 }
