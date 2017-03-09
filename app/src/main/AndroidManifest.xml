@@ -35,7 +35,6 @@
             android:name=".MenuActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ReporteGeneralActivity" />
-        <activity android:name=".ReporteAlumnoActivity" />
         <activity
             android:name=".ReportesActivity"
             android:theme="@style/AppTheme"
