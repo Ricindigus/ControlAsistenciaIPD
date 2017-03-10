@@ -131,6 +131,8 @@ public class MenuActivity extends AppCompatActivity {
     public void goReporte(View view){
         Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
         i.putExtra("cod", recuperado);
+        i.putExtra("eve", codEvento);
+        i.putExtra("nomEve",nomEvento);
         startActivity(i);
     }
     @SuppressLint("NewApi")

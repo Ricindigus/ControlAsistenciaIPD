@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:background="#33000000">
                 <TextView
+                    android:id="@+id/txt_reportes_evento"
                     android:textColor="@color/colorIcons"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -30,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Programa: Invierno 2017"/>
                 <TextView
+                    android:id="@+id/txt_reportes_docente_disciplina"
                     android:textColor="@color/colorIcons"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -108,26 +110,14 @@
                                 android:text="dd/mm/aaaa"
                                 android:layout_width="0dp"
                                 android:layout_height="25dp" />
-                            <LinearLayout
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent">
-                                <ImageButton
-                                    android:id="@+id/btn_calendario1"
-                                    android:background="@drawable/calendar"
-                                    android:text="dd/mm/aaaa"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:theme="@style/RaisedButtonDark" />
-                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp">
                         <TextView
                             android:textStyle="bold"
                             android:textColor="@color/colorIcons"
@@ -149,19 +139,6 @@
                                 android:text="dd/mm/aaaa"
                                 android:layout_width="0dp"
                                 android:layout_height="25dp" />
-                            <LinearLayout
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent">
-                                <ImageButton
-                                    android:id="@+id/btn_calendario2"
-                                    android:background="@drawable/calendar"
-                                    android:text="dd/mm/aaaa"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:theme="@style/RaisedButtonDark" />
-                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -197,7 +174,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="1dp"
-                    android:background="@drawable/border_layout_black"
                     android:padding="3dp"
                     android:scrollbars="vertical" />
             </LinearLayout>

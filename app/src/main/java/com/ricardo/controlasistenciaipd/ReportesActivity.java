@@ -23,11 +23,17 @@ import com.ricardo.controlasistenciaipd.fragments.GeneralFragment;
 
 public class ReportesActivity extends AppCompatActivity {
 
-
+    String recuperado = "";
+    String evento = "";
+    String nomEvento = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportes);
+
+        //recuperando codigo
+        final Bundle recupera = getIntent().getExtras();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,9 +56,9 @@ public class ReportesActivity extends AppCompatActivity {
                 // container view.
                 Fragment fragment = null;
                 if(position == 0)
-                    fragment = new GeneralFragment();
+                    fragment = new GeneralFragment(recupera);
                 else
-                    fragment = new AlumnoFragment();
+                    fragment = new AlumnoFragment(recupera);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();

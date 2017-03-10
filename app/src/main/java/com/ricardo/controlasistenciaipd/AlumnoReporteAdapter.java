@@ -1,5 +1,7 @@
 package com.ricardo.controlasistenciaipd;
 
+import android.app.Application;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by apoyo03-ui on 2/03/2017.
@@ -14,30 +17,27 @@ import java.util.ArrayList;
 
 public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdapter.AlumnoViewHolder> {
     private ArrayList<AlumnoReporte> items;
+    private Application application;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView numeroAlumno;
         public TextView nombreAlumno;
-        public TextView edadAlumno;
-        public TextView asistenciaAlumno;
+        public RecyclerView recyclerViewAsistencias;
 
         public AlumnoViewHolder(View v) {
             super(v);
             numeroAlumno = (TextView) v.findViewById(R.id.cardview_reporte_numero);
             nombreAlumno = (TextView) v.findViewById(R.id.cardview_reporte_nombre);
-            asistenciaAlumno = (TextView) v.findViewById(R.id.cardview_reporte_asistencia);
+            recyclerViewAsistencias = (RecyclerView) v.findViewById(R.id.cardview_reporte_recycler);
         }
     }
 
-    public AlumnoReporteAdapter(ArrayList<AlumnoReporte> items) {
+    public AlumnoReporteAdapter(ArrayList<AlumnoReporte> items, Application application) {
         this.items = items;
+        this.application = application;
     }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
 
     @Override
     public AlumnoReporteAdapter.AlumnoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -49,15 +49,26 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
         viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        String asistencias = "";
-        String valorAsistencia = "";
-        for (int j = 0; j < items.get(i).getAsistencias().length; j++) {
-            if(items.get(i).getAsistencias()[j]) valorAsistencia = "A";
-            else valorAsistencia = "F";
-            if (j > 0) asistencias = asistencias + "-S" + (j+1) + ":" + valorAsistencia;
-            else asistencias = asistencias + "S" + (j+1) + ":" + valorAsistencia;
-        }
-        viewHolder.asistenciaAlumno.setText(asistencias);
+        ArrayList<String> horizontalList = new ArrayList<>();
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        horizontalList.add("13/02/2017:A");
+        AsistenciasAdapter horizontalAdapter = new AsistenciasAdapter(horizontalList);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(application, LinearLayoutManager.HORIZONTAL, false);
+        viewHolder.recyclerViewAsistencias.setLayoutManager(horizontalLayoutManager);
+        viewHolder.recyclerViewAsistencias.setAdapter(horizontalAdapter);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
 }

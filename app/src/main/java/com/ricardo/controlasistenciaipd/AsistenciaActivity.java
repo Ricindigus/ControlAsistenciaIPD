@@ -141,7 +141,6 @@ public class AsistenciaActivity extends AppCompatActivity {
                 };
                 tr.start();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

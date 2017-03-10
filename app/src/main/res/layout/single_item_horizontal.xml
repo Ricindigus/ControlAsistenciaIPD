@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    cardview:cardCornerRadius="5dp"
+    cardview:cardElevation="5dp"
+    cardview:cardBackgroundColor="@color/colorAccent"
+    android:layout_margin="10dp"
+    android:elevation="2dp">
+    <TextView
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:id="@+id/txtView"
+        android:text="Hola"
+        android:padding="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+/>
+</android.support.v7.widget.CardView>
