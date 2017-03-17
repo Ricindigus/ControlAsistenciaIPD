@@ -5,8 +5,9 @@
     android:id="@+id/alumnoCard"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    cardview:cardCornerRadius="1dp"
+    cardview:cardCornerRadius="0dp"
     cardview:cardElevation="1dp"
+    android:layout_margin="5dp"
     android:layout_marginBottom="5dp">
 
     <LinearLayout
@@ -42,14 +43,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
-                android:padding="3dp"
+
                 android:id="@+id/cardview_reporte_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="1dp"
-                android:scrollbars="horizontal"
-                android:scrollbarSize="2dp"
-                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="none"
                 />
         </LinearLayout>
     </LinearLayout>

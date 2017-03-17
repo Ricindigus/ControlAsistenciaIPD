@@ -1,5 +1,6 @@
 package com.ricardo.controlasistenciaipd;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -35,10 +36,14 @@ public class ReportesActivity extends AppCompatActivity {
         final Bundle recupera = getIntent().getExtras();
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_reportes);
+        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // Setup spinner
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -58,7 +63,7 @@ public class ReportesActivity extends AppCompatActivity {
                 if(position == 0)
                     fragment = new GeneralFragment(recupera);
                 else
-                    fragment = new AlumnoFragment(recupera);
+                    fragment = new AlumnoFragment(recupera, ReportesActivity.this);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();

@@ -155,7 +155,6 @@
                         android:theme="@style/RaisedButtonDark2"
                         />
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -173,9 +172,8 @@
                     android:id="@+id/recyclerview_reporte"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:padding="3dp"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="vertical"
+                    android:background="#00000000"/>
             </LinearLayout>
         </LinearLayout>
 

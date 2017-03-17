@@ -132,8 +132,8 @@ public class GeneralFragment extends Fragment {
         spHorarios = (Spinner)view.findViewById(R.id.sp_reporte_horario);
         spComplejos = (Spinner)view.findViewById(R.id.sp_reporte_complejo);
 
-        btnCalendar1 = (ImageButton)view.findViewById(R.id.btn_calendario1);
-        btnCalendar2 = (ImageButton)view.findViewById(R.id.btn_calendario2);
+//        btnCalendar1 = (ImageButton)view.findViewById(R.id.btn_calendario1);
+//        btnCalendar2 = (ImageButton)view.findViewById(R.id.btn_calendario2);
         txtFecha1 = (TextView)view.findViewById(R.id.txtFecha1);
         txtFecha2 = (TextView)view.findViewById(R.id.txtFecha2);
         txtEvento = (TextView)view.findViewById(R.id.txt_reportes_evento);

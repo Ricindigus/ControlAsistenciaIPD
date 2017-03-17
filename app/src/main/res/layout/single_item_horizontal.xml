@@ -7,8 +7,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    cardview:cardCornerRadius="5dp"
-    cardview:cardElevation="5dp"
+    cardview:cardCornerRadius="3dp"
+    cardview:cardElevation="1dp"
     cardview:cardBackgroundColor="@color/colorAccent"
     android:layout_margin="10dp"
     android:elevation="2dp">
