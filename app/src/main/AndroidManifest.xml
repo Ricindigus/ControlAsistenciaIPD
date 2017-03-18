@@ -44,7 +44,13 @@
                 android:value=".MenuActivity" />
         </activity>
 
-        <activity android:name=".DetalleAlumnoActivity"></activity>
+        <activity android:name=".DetalleAlumnoActivity"
+            android:parentActivityName=".ReportesActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ReportesActivity" />
+        </activity>
     </application>
 
 </manifest>

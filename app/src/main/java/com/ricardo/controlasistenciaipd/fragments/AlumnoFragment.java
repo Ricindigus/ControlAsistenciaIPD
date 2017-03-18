@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.ricardo.controlasistenciaipd.Alumno;
 import com.ricardo.controlasistenciaipd.BuscadorAdapter;
 import com.ricardo.controlasistenciaipd.DetalleAlumnoActivity;
 import com.ricardo.controlasistenciaipd.R;
@@ -42,11 +43,11 @@ public class AlumnoFragment extends Fragment {
     AppCompatActivity appCompatActivity;
     String recuperado = "", evento =  "", nomEvento = "";
     RecyclerView recyclerView;
-    ArrayList<String> lstFound;
+    ArrayList<Alumno> lstFound;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     MaterialSearchView materialSearchView;
-    ArrayList<String> items = new ArrayList<String>();
+    ArrayList<Alumno> items = new ArrayList<Alumno>();
 
     public AlumnoFragment() {
         // Required empty public constructor
@@ -67,18 +68,18 @@ public class AlumnoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        items.add("Denis Ricardo Morales Retamozo");
-        items.add("Jesus Falen Garcia Suarez");
-        items.add("Alan Arnold Pajuelo Lincon");
-        items.add("Enrique Julio Flores Dibala");
-        items.add("Laura Rosa Sosa Villanueva");
-        items.add("Cesar Bernabe Quispe Rodriguez");
-        items.add("Helton Javier Aiquipa Robles");
-        items.add("Cindy Laura Maldonado Quispe");
-        items.add("Nilton Gregorio Armas Domenech");
-        items.add("Juan Pablo Messi Nazario");
-        items.add("Juan Jose Ore Yepez");
-        items.add("Guiliana Lisa Montes Fajardo");
+        items.add(new Alumno("43372489","Denis Ricardo", "Morales Retamozo",true));
+        items.add(new Alumno("44556677","Jesus Falen","Garcia Suarez",true));
+        items.add(new Alumno("54342223","Alan Arnold","Pajuelo Lincon",true));
+        items.add(new Alumno("57443322","Enrique Julio","Flores Dibala",true));
+        items.add(new Alumno("66557744","Laura Rosa Sosa","Villanueva",false));
+        items.add(new Alumno("44332211","Cesar Bernabe","Quispe Rodriguez",true));
+        items.add(new Alumno("55443322","Helton Javier","Aiquipa Robles",true));
+        items.add(new Alumno("25887765","Cindy Laura","Maldonado Quispe",false));
+        items.add(new Alumno("55332211","Nilton Gregorio","Armas Domenech",true));
+        items.add(new Alumno("33221109","Juan Pablo","Messi Nazario",true));
+        items.add(new Alumno("32145332","Juan Jose","Ore Yepez",true));
+        items.add(new Alumno("37221234","Guiliana Lisa","Montes Fajardo",false));
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_alumno, container, false);
@@ -145,9 +146,10 @@ public class AlumnoFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText != null && !newText.isEmpty()){
-                    lstFound = new ArrayList<String>();
-                    for(String item:items){
-                        if(item.toUpperCase().contains(newText.toUpperCase()))lstFound.add(item);
+                    lstFound = new ArrayList<Alumno>();
+                    for(Alumno item:items){
+                        String nombreCompleto = (item.getNombres() + " " + item.getApellidos()).toUpperCase();
+                        if(nombreCompleto.contains(newText.toUpperCase()))lstFound.add(item);
                     }
                     recyclerView.setHasFixedSize(true);
                     // use a linear layout manager
@@ -186,7 +188,7 @@ public class AlumnoFragment extends Fragment {
         materialSearchView.setMenuItem(menuItem);
     }
 
-    public BuscadorAdapter getBuscadorAdapter(final ArrayList<String> elementos){
+    public BuscadorAdapter getBuscadorAdapter(final ArrayList<Alumno> elementos){
         return new BuscadorAdapter(elementos, new BuscadorAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -203,7 +205,10 @@ public class AlumnoFragment extends Fragment {
                 });
                 colorAnimation.start();
                 Intent intent = new Intent(getContext(), DetalleAlumnoActivity.class);
-                intent.putExtra("detalle",elementos.get(position));
+                intent.putExtra("nombres",elementos.get(position).getNombres());
+                intent.putExtra("apellidos", elementos.get(position).getApellidos());
+                intent.putExtra("dni",elementos.get(position).getCodigo());
+                intent.putExtra("sexo",elementos.get(position).getAsistencia());
                 startActivity(intent);
             }
         });

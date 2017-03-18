@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHolder>{
-    private ArrayList<String> alumnos;
+    private ArrayList<Alumno> alumnos;
     private OnItemClickListener mOnItemClickListener;
 
 
@@ -40,7 +40,7 @@ public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHo
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BuscadorAdapter(ArrayList<String> alumnos,OnItemClickListener onItemClickListener) {
+    public BuscadorAdapter(ArrayList<Alumno> alumnos,OnItemClickListener onItemClickListener) {
         this.alumnos = alumnos;
         mOnItemClickListener = onItemClickListener;
     }
@@ -59,7 +59,7 @@ public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        viewHolder.textView.setText(alumnos.get(position));
+        viewHolder.textView.setText(alumnos.get(position).getNombres() + " " + alumnos.get(position).getApellidos());
         final int pos = position;
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
