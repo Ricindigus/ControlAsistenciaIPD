@@ -63,9 +63,9 @@
                 android:id="@+id/salir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SALIR"
+                android:text="SALIR AL MENÚ PRINCIPAL"
                 android:theme="@style/RaisedButtonDark"
-                android:onClick="goSalir"
+                android:onClick="goSalirAlMenu"
                 />
         </LinearLayout>
 

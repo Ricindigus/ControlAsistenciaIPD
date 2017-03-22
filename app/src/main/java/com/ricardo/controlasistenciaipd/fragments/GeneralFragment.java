@@ -81,9 +81,9 @@ public class GeneralFragment extends Fragment {
         // Required empty public constructor
         final Bundle r = recupera;
         if(r!=null){
-            recuperado = recupera.getString("cod");
-            evento = recupera.getString("eve");
-            nomEvento = recupera.getString("nomEve");
+            recuperado = recupera.getString("codigoPonente");
+            evento = recupera.getString("codigoEvento");
+            nomEvento = recupera.getString("nombreEvento");
         }
     }
 
@@ -294,8 +294,7 @@ public class GeneralFragment extends Fragment {
             String dDisciplina = "";
             JSONArray json = new JSONArray(response);
             for(int i = 0; i < json.length(); i++){
-                dDocente = json.getJSONObject(i).getString("apepaterno") + " " + json.getJSONObject(i).getString("apematerno")
-                        + " " + json.getJSONObject(i).getString("nombres");
+                dDocente = json.getJSONObject(i).getString("nombres") + " " +json.getJSONObject(i).getString("apepaterno");
                 dDisciplina = json.getJSONObject(i).getString("curso");
                 txtEvento.setText(nomEvento);
                 txtDocDisciplina.setText(dDocente + "-" + dDisciplina);

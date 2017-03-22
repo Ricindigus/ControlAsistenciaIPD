@@ -21,13 +21,27 @@
         </activity>
         <activity
             android:name=".AsistenciaActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
         <activity
             android:name=".ConfirmarActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AsistenciaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AsistenciaActivity" />
+        </activity>
         <activity
             android:name=".GuardarActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ConfirmarActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ConfirmarActivity"/>
         <activity
             android:name=".FinalizarActivity"
             android:screenOrientation="portrait" />

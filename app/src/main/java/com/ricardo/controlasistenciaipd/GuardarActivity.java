@@ -1,11 +1,14 @@
 package com.ricardo.controlasistenciaipd;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,17 +25,20 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class GuardarActivity extends AppCompatActivity {
-    String hostIpdDesarrollo = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
+    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
     //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
     //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
     int codigoError = 0;
     String codigoPonente="";
     String codigoEvento = "";
+    String codigoHorario = "";
+    String nombreEvento = "";
     EditText txtObservacion;
     ArrayList<Alumno> asistenciaAlumnos;
     String fechaHoy ="";
     TextView txtFecha;
+    public static Activity actividad;
 
 
     @Override
@@ -42,13 +48,27 @@ public class GuardarActivity extends AppCompatActivity {
 
         asistenciaAlumnos = new ArrayList<Alumno>();
         Bundle recupera = getIntent().getExtras();
-
+        actividad = this;
         if(recupera != null){
             asistenciaAlumnos = (ArrayList<Alumno>)recupera.getSerializable("alumnos");
-            codigoPonente = recupera.getString("cod");
-            codigoEvento = recupera.getString("evento");
+            codigoPonente = recupera.getString("codigoPonente");
+            codigoEvento = recupera.getString("codigoEvento");
+            codigoHorario = recupera.getString("codigoHorario");
+            nombreEvento = recupera.getString("nombreEvento");
             fechaHoy = recupera.getString("fecha");
         }
+//        showToolbar("Guardar Asistencia",true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+        toolbar.setTitle("Guardar Asistencia");
+        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         txtObservacion = (EditText) findViewById(R.id.txtObservaciones);
         txtFecha = (TextView)findViewById(R.id.txtFecha);
         txtFecha.setText(fechaHoy);
@@ -89,13 +109,12 @@ public class GuardarActivity extends AppCompatActivity {
                     }catch(Exception e){}
                     i++;
                 }
-
                 if(incorrecto){
                     codigoError = 1;
                 } else{
                         //Aqui va el codigo
 
-                    String resultado = registrarObservacion(codigoEvento, codigoPonente,txtObservacion.getText().toString());
+                    String resultado = registrarObservacion(codigoHorario, codigoPonente,txtObservacion.getText().toString());
                     try{
                         JSONArray json = new JSONArray(resultado);
                         int estado = Integer.parseInt(json.getJSONObject(0).getString("estado_final"));
@@ -103,7 +122,7 @@ public class GuardarActivity extends AppCompatActivity {
                             codigoError = 1;
                         }else{
                             //actualizar
-                            String resultado2 = actualizarEstado(codigoEvento);
+                            String resultado2 = actualizarEstado(codigoHorario);
                         }
                     }catch(Exception e){}
                 }
@@ -111,8 +130,10 @@ public class GuardarActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent i=new Intent(getApplicationContext(),FinalizarActivity.class);
-                        i.putExtra("cod",codigoError);
+                        i.putExtra("codigoError",codigoError);
                         i.putExtra("codigoPonente",codigoPonente);
+                        i.putExtra("codigoEvento",codigoEvento);
+                        i.putExtra("nombreEvento",nombreEvento);
                         startActivity(i);
                     }
                 });
@@ -144,15 +165,15 @@ public class GuardarActivity extends AppCompatActivity {
         }catch(Exception e){}
         return resul.toString();
     }
-    public String registrarObservacion(String codEvento, String codPonente, String observacion){
+    public String registrarObservacion(String codHorario, String codPonente, String observacion){
         URL url=null;
         observacion = observacion.replace(" ","%20");
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "registrarobservacion.php?eve=" + codEvento + "&pon=" + codPonente + "&obs=" + observacion);
-            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+            url = new URL(hostIpdDesarrollo + "registrarobservacion.php?hor=" + codHorario + "&pon=" + codPonente + "&obs=" + observacion);
+            HttpURLConnection conection = (HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
@@ -165,13 +186,13 @@ public class GuardarActivity extends AppCompatActivity {
         }catch(Exception e){}
         return resul.toString();
     }
-    public String actualizarEstado(String codEvento){
+    public String actualizarEstado(String codHorario){
         URL url=null;
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "actualizarestado.php?eve=" + codEvento);
+            url = new URL(hostIpdDesarrollo + "actualizarestado.php?hor=" + codHorario);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
@@ -187,28 +208,35 @@ public class GuardarActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("NewApi")
-    public void salirApp(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-                .setTitle("Aviso")
-                .setCancelable(false)
-                .setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                .setPositiveButton("Sí",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                i.putExtra("cod", codigoPonente);
-                                startActivity(i);
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    @SuppressLint("NewApi")
+//    public void salirApp(View view){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
+//                .setTitle("Aviso")
+//                .setCancelable(false)
+//                .setNegativeButton("No",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        })
+//                .setPositiveButton("Sí",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+//                                i.putExtra("cod", codigoPonente);
+//                                startActivity(i);
+//                            }
+//                        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
+//    public void showToolbar(String title, boolean upButton){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_asistencia);
+//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+//    }
 }

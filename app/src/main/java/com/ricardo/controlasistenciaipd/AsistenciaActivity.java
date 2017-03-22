@@ -1,13 +1,16 @@
 package com.ricardo.controlasistenciaipd;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -59,6 +62,7 @@ public class AsistenciaActivity extends AppCompatActivity {
     ArrayList<String> descHorarios = new ArrayList<String>();
     ArrayList<Alumno> items = new ArrayList<Alumno>();
 
+    public static Activity actividad;
 //    ArrayList<String> horarios = new ArrayList<String>();
 //    ArrayList<String> complejos = new ArrayList<String>();
 
@@ -68,15 +72,26 @@ public class AsistenciaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistencia);
-
-
+        actividad = this;
         //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera != null){
-            recuperadoCodDocente=recupera.getString("cod");
-            recuperadoCodEvento = recupera.getString("eve");
-            recuperadoNomEvento = recupera.getString("nomEve");
+            recuperadoCodDocente = recupera.getString("codigoPonente");
+            recuperadoCodEvento = recupera.getString("codigoEvento");
+            recuperadoNomEvento = recupera.getString("nombreEvento");
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+        toolbar.setTitle("Control de Asistencia");
+        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+//        showToolbar("Control de Asistencia", true);
         txtEvento = (TextView)findViewById(R.id.txt_asistencia_evento);
         txtEvento.setText(recuperadoNomEvento);
         txtDocente = (TextView)findViewById(R.id.txt_asistencia_docente);
@@ -125,6 +140,7 @@ public class AsistenciaActivity extends AppCompatActivity {
                     public void run() {
                         final String resHorarios = traerHorarios(recuperadoCodEvento, codComplejo,recuperadoCodDocente);
                         JSONArray jsonArray = null;
+                        codHorario = "";
                         try {
                             jsonArray = new JSONArray(resHorarios);
                             codHorario = jsonArray.getJSONObject(0).getString("id_disciplinaevento");
@@ -143,7 +159,6 @@ public class AsistenciaActivity extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -318,10 +333,10 @@ public class AsistenciaActivity extends AppCompatActivity {
         else spComplejos.setAdapter(adaptador);
     }
     public ArrayList<Alumno> ArregloLista(String response){
+        items = new ArrayList<Alumno>();
         try{
             JSONArray json=new JSONArray(response);
             String alumno = null;
-            items = new ArrayList<Alumno>();
             for(int i=0; i<json.length();i++){
                 items.add(new Alumno(json.getJSONObject(i).getString("id_participante_evento"), json.getJSONObject(i).getString("nombres"), json.getJSONObject(i).getString("ape_pat")
                         + " " + json.getJSONObject(i).getString("ape_mat"),false));
@@ -354,86 +369,95 @@ public class AsistenciaActivity extends AppCompatActivity {
     }
     public void goConfirmar(View view){
         Intent intent = new Intent(this, ConfirmarActivity.class);
-        intent.putExtra("cod",recuperadoCodDocente);
-        intent.putExtra("evento", recuperadoCodEvento);
+        intent.putExtra("codigoPonente",recuperadoCodDocente);
+        intent.putExtra("codigoEvento", recuperadoCodEvento);
         intent.putExtra("nombreEvento",recuperadoNomEvento);
         intent.putExtra("nombreComplejo",descripcionComplejo);
         intent.putExtra("nombreDocente", descripcionDocente);
         intent.putExtra("nombreDisciplina",descripcionDeporte);
         intent.putExtra("nombreHorario",descripcionHorario);
+        intent.putExtra("codigoHorario",codHorario);
         intent.putExtra("fecha",fechaHoy);
         intent.putExtra("alumnos", items);
+
         startActivity(intent);
     }
 
 
-    @SuppressLint("NewApi")
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == event.KEYCODE_BACK) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-                    .setTitle("Aviso")
-                    .setCancelable(false)
-                    .setNegativeButton("No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            })
-                    .setPositiveButton("Sí",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                    i.putExtra("cod", recuperadoCodDocente);
-                                    startActivity(i);
-                                }
-                            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @SuppressLint("NewApi")
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        // TODO Auto-generated method stub
+//        if (keyCode == event.KEYCODE_BACK) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
+//                    .setTitle("Aviso")
+//                    .setCancelable(false)
+//                    .setNegativeButton("No",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                }
+//                            })
+//                    .setPositiveButton("Sí",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+//                                    i.putExtra("cod", recuperadoCodDocente);
+//                                    startActivity(i);
+//                                }
+//                            });
+//            AlertDialog alert = builder.create();
+//            alert.show();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
-    @SuppressLint("NewApi")
-    public void salirApp(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-                .setTitle("Aviso")
-                .setCancelable(false)
-                .setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                .setPositiveButton("Sí",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                i.putExtra("cod", recuperadoCodDocente);
-                                startActivity(i);
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    @SuppressLint("NewApi")
+//    public void salirApp(View view){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
+//                .setTitle("Aviso")
+//                .setCancelable(false)
+//                .setNegativeButton("No",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        })
+//                .setPositiveButton("Sí",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+//                                i.putExtra("cod", recuperadoCodDocente);
+//                                startActivity(i);
+//                            }
+//                        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
-    @SuppressLint("NewApi")
-    public void salirSinDatos(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("No existen datos para mostrar, ya ha guardado todas las asistencias del día o esta fuera del horario")
-                .setTitle("Aviso")
-                .setCancelable(false)
-                .setPositiveButton("Salir",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                finishAffinity();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    @SuppressLint("NewApi")
+//    public void salirSinDatos(View view){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("No existen datos para mostrar, ya ha guardado todas las asistencias del día o esta fuera del horario")
+//                .setTitle("Aviso")
+//                .setCancelable(false)
+//                .setPositiveButton("Salir",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                finishAffinity();
+//                            }
+//                        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+//    public void showToolbar(String title, boolean upButton){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_asistencia);
+//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+//    }
 }
 
 

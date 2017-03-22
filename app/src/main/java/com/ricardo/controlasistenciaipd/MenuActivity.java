@@ -47,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
         //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera!=null){
-            recuperado=recupera.getString("cod");
+            recuperado=recupera.getString("codigoPonente");
         }
         //cargarSpiner(programas);
 
@@ -123,19 +123,19 @@ public class MenuActivity extends AppCompatActivity {
 
     public void goAsistencia(View view){
         Intent i = new Intent(getApplicationContext(), AsistenciaActivity.class);
-        i.putExtra("cod", recuperado);
-        i.putExtra("eve", codEvento);
-        i.putExtra("nomEve",nomEvento);
+        i.putExtra("codigoPonente", recuperado);
+        i.putExtra("codigoEvento", codEvento);
+        i.putExtra("nombreEvento",nomEvento);
         startActivity(i);
     }
     public void goReporte(View view){
         Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
-        i.putExtra("cod", recuperado);
-        i.putExtra("eve", codEvento);
-        i.putExtra("nomEve",nomEvento);
+        i.putExtra("codigoPonente", recuperado);
+        i.putExtra("codigoEvento", codEvento);
+        i.putExtra("nombreEvento",nomEvento);
         startActivity(i);
     }
-    @SuppressLint("NewApi")
+
     public void salirApp(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("¿Está seguro que desea salir de la aplicación?")
@@ -150,7 +150,7 @@ public class MenuActivity extends AppCompatActivity {
                 .setPositiveButton("Sí",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                finishAffinity();
+                                finish();
                             }
                         });
         AlertDialog alert = builder.create();

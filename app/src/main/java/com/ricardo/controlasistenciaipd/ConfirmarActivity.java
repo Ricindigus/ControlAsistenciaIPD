@@ -1,13 +1,16 @@
 package com.ricardo.controlasistenciaipd;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ public class ConfirmarActivity extends AppCompatActivity {
 
     private String codigoPonente="";
     private String codEvento="";
+    private String codHorario="";
     private String nomEvento = "";
     private String nomComplejo = "";
     private String nomDocente = "";
@@ -35,26 +39,36 @@ public class ConfirmarActivity extends AppCompatActivity {
     private String nomHorario = "";
     private String fechaHoy ="";
     private ArrayList<Alumno> asistenciaAlumnos;
-
+    public static Activity actividad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmar);
         asistenciaAlumnos = new ArrayList<Alumno>();
+        actividad = this;
         Bundle recupera = getIntent().getExtras();
         if(recupera != null){
-            codigoPonente = recupera.getString("cod");
-            codEvento = recupera.getString("evento");
-
+            codigoPonente = recupera.getString("codigoPonente");
+            codEvento = recupera.getString("codigoEvento");
             nomEvento = recupera.getString("nombreEvento");
             nomComplejo = recupera.getString("nombreComplejo");
             nomDocente = recupera.getString("nombreDocente");
             nomDisciplina = recupera.getString("nombreDisciplina");
             nomHorario = recupera.getString("nombreHorario");
+            codHorario = recupera.getString("codigoHorario");
             fechaHoy = recupera.getString("fecha");
-
             asistenciaAlumnos = (ArrayList<Alumno>)recupera.getSerializable("alumnos");
         }
+//        showToolbar("Confirmar Asistencia",true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+        toolbar.setTitle("Confirmar Asistencia");
+        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         txtEvento = (TextView)findViewById(R.id.txt_confirmar_evento);
         txtComplejo = (TextView)findViewById(R.id.txt_confirmar_complejo);
@@ -80,34 +94,43 @@ public class ConfirmarActivity extends AppCompatActivity {
     public void goGuardar(View view){
         Intent intent = new Intent(this, GuardarActivity.class);
         intent.putExtra("alumnos", asistenciaAlumnos);
-        intent.putExtra("cod",codigoPonente);
-        intent.putExtra("evento",codEvento);
+        intent.putExtra("codigoPonente",codigoPonente);
+        intent.putExtra("codigoEvento",codEvento);
+        intent.putExtra("codigoHorario",codHorario);
         intent.putExtra("fecha",fechaHoy);
+        intent.putExtra("nombreEvento",nomEvento);
         startActivity(intent);
     }
 
-    @SuppressLint("NewApi")
-    public void salirApp(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-                .setTitle("Aviso")
-                .setCancelable(false)
-                .setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                .setPositiveButton("Sí",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                                i.putExtra("cod", codigoPonente);
-                                startActivity(i);
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    @SuppressLint("NewApi")
+//    public void salirApp(View view){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
+//                .setTitle("Aviso")
+//                .setCancelable(false)
+//                .setNegativeButton("No",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        })
+//                .setPositiveButton("Sí",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+//                                i.putExtra("cod", codigoPonente);
+//                                startActivity(i);
+//                            }
+//                        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+//    public void showToolbar(String title, boolean upButton){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_asistencia);
+//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+//    }
 
 }

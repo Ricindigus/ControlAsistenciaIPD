@@ -9,8 +9,7 @@
     android:id="@+id/rootView"
     tools:context="com.ricardo.controlasistenciaipd.AsistenciaActivity">
 
-    <include layout="@layout/actionbar_toolbar_asistencia"/>
-
+    <include layout="@layout/toolbar_actionbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"

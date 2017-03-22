@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class FinalizarActivity extends AppCompatActivity {
 
     int codigoError = 0;
-    String codPonente = "";
+    String codEvento = "",codPonente = "", nomEvento = "";
     TextView txtResultado;
     TextView txtMensaje;
     @Override
@@ -28,8 +28,10 @@ public class FinalizarActivity extends AppCompatActivity {
 
         Bundle recupera = getIntent().getExtras();
         if(recupera != null){
-            codigoError = recupera.getInt("error");
+            codigoError = recupera.getInt("codigoError");
             codPonente = recupera.getString("codigoPonente");
+            codEvento = recupera.getString("codigoEvento");
+            nomEvento = recupera.getString("nombreEvento");
         }
 
         if(codigoError == 1){
@@ -38,15 +40,24 @@ public class FinalizarActivity extends AppCompatActivity {
         }
 
     }
-    @SuppressLint("NewApi")
-    public void goSalir(View view){
-        finishAffinity();
+
+    public void goSalirAlMenu(View view){
+        finish();
+        GuardarActivity.actividad.finish();
+        ConfirmarActivity.actividad.finish();
+        AsistenciaActivity.actividad.finish();
     }
 
     public void goContinuarGuardando(View view){
-        Intent intent = new Intent(this, AsistenciaActivity.class);
-        intent.putExtra("cod",codPonente);
-        startActivity(intent);
+        GuardarActivity.actividad.finish();
+        ConfirmarActivity.actividad.finish();
+        AsistenciaActivity.actividad.finish();
+        Intent i = new Intent(this, AsistenciaActivity.class);
+        i.putExtra("codigoPonente", codPonente);
+        i.putExtra("codigoEvento", codEvento);
+        i.putExtra("nombreEvento",nomEvento);
+        startActivity(i);
+        finish();
     }
 
     @Override
