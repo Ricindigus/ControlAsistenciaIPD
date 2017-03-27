@@ -58,9 +58,9 @@ public class AlumnoFragment extends Fragment {
         // Required empty public constructor
         final Bundle r = recupera;
         if(r!=null){
-            recuperado = recupera.getString("cod");
-            evento = recupera.getString("eve");
-            nomEvento = recupera.getString("nomEve");
+            recuperado = recupera.getString("codigoPonente");
+            evento = recupera.getString("codigoEvento");
+            nomEvento = recupera.getString("nombreEvento");
         }
         this.appCompatActivity = appCompatActivity;
     }
@@ -209,6 +209,7 @@ public class AlumnoFragment extends Fragment {
                 intent.putExtra("apellidos", elementos.get(position).getApellidos());
                 intent.putExtra("dni",elementos.get(position).getCodigo());
                 intent.putExtra("sexo",elementos.get(position).getAsistencia());
+                intent.putExtra("codigoPonente", recuperado);
                 startActivity(intent);
             }
         });

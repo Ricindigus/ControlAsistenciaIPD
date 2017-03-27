@@ -1,11 +1,14 @@
 package com.ricardo.controlasistenciaipd;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 public class DetalleAlumnoActivity extends AppCompatActivity {
     String nombres = "";
     String apellidos = "";
+    String codigoPonente = "";
     boolean sexo = true;
     String dni = "";
     TextView txtNombres, txtApellidos, txtDni;
@@ -30,6 +34,7 @@ public class DetalleAlumnoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detalle_alumno);
         Bundle recupera = getIntent().getExtras();
         if(recupera != null){
+            codigoPonente = recupera.getString("codigoPonente");
             nombres = recupera.getString("nombres");
             apellidos = recupera.getString("apellidos");
             dni = recupera.getString("dni");
@@ -100,5 +105,29 @@ public class DetalleAlumnoActivity extends AppCompatActivity {
         recyclerDisciplina1.setAdapter(adapter1);
         adapter2 = new DisciplinaAdapter(items);
         recyclerDisciplina2.setAdapter(adapter2);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_asistencia, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_volver_menu) {
+            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+            i.putExtra("codigoPonente", codigoPonente);
+            startActivity(i);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

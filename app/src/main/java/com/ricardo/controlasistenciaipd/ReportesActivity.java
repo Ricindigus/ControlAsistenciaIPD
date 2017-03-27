@@ -1,5 +1,6 @@
 package com.ricardo.controlasistenciaipd;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,10 +37,14 @@ public class ReportesActivity extends AppCompatActivity {
 
         //recuperando codigo
         final Bundle recupera = getIntent().getExtras();
+        if(recupera!=null){
+            recuperado = recupera.getString("codigoPonente");
+            evento = recupera.getString("codigoEvento");
+            nomEvento = recupera.getString("nombreEvento");
+        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_reportes);
-        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
