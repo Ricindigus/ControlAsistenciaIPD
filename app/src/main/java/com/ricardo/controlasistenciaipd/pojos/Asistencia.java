@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.pojos;
 
 /**
  * Created by apoyo03-ui on 17/03/2017.

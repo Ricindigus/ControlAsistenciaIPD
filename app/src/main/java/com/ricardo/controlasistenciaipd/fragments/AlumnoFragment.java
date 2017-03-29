@@ -20,20 +20,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.ricardo.controlasistenciaipd.Alumno;
-import com.ricardo.controlasistenciaipd.BuscadorAdapter;
+import com.ricardo.controlasistenciaipd.pojos.Alumno;
+import com.ricardo.controlasistenciaipd.adapters.BuscadorAdapter;
 import com.ricardo.controlasistenciaipd.DetalleAlumnoActivity;
 import com.ricardo.controlasistenciaipd.R;
-import com.ricardo.controlasistenciaipd.RecyclerItemClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,27 +91,6 @@ public class AlumnoFragment extends Fragment {
 
         mAdapter = getBuscadorAdapter(items);
         recyclerView.setAdapter(mAdapter);
-
-//        recyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//                        final CardView cardView = view.findViewById(R.id.);
-//                        int colorFrom = ContextCompat.getColor(getContext(), R.color.colorIcons);
-//                        int colorTo = ContextCompat.getColor(getContext(), R.color.colorAccent);
-//                        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-//                        colorAnimation.setDuration(800); // milliseconds
-//                        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                            @Override
-//                            public void onAnimationUpdate(ValueAnimator animator) {
-//                                cardView.setBackgroundColor((int) animator.getAnimatedValue());
-//                            }
-//                        });
-//                        colorAnimation.start();
-//                        Intent intent = new Intent(getContext(), DetalleAlumnoActivity.class);
-//                        startActivity(intent);
-//                    }
-//                })
-//        );
 
         materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override

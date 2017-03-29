@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.adapters.DisciplinaAdapter;
+import com.ricardo.controlasistenciaipd.pojos.Asistencia;
+
 import java.util.ArrayList;
 
 public class DetalleAlumnoActivity extends AppCompatActivity {

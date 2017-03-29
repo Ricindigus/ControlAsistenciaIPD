@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.adapters;
 
 import android.app.Application;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.pojos.AlumnoReporte;
+import com.ricardo.controlasistenciaipd.R;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by apoyo03-ui on 2/03/2017.

@@ -2,7 +2,6 @@ package com.ricardo.controlasistenciaipd;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +16,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.ricardo.controlasistenciaipd.adapters.AlumnoAdapter;
+import com.ricardo.controlasistenciaipd.pojos.Alumno;
 
 import org.json.JSONArray;
 import org.json.JSONException;

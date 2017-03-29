@@ -3,10 +3,6 @@ package com.ricardo.controlasistenciaipd.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,26 +23,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.ricardo.controlasistenciaipd.Alumno;
-import com.ricardo.controlasistenciaipd.AlumnoAdapter;
-import com.ricardo.controlasistenciaipd.AlumnoReporte;
-import com.ricardo.controlasistenciaipd.AlumnoReporteAdapter;
+import com.ricardo.controlasistenciaipd.pojos.AlumnoReporte;
+import com.ricardo.controlasistenciaipd.adapters.AlumnoReporteAdapter;
 import com.ricardo.controlasistenciaipd.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
