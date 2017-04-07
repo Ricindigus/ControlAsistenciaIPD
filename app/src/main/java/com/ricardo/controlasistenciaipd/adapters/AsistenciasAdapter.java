@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ricardo.controlasistenciaipd.R;
+import com.ricardo.controlasistenciaipd.pojos.Asistencia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class AsistenciasAdapter extends RecyclerView.Adapter<AsistenciasAdapter.MyViewHolder> {
 
-    private List<String> horizontalList;
+    private ArrayList<Asistencia> horizontalList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtView;
@@ -27,8 +29,7 @@ public class AsistenciasAdapter extends RecyclerView.Adapter<AsistenciasAdapter.
         }
     }
 
-
-    public AsistenciasAdapter(List<String> horizontalList) {
+    public AsistenciasAdapter(ArrayList<Asistencia> horizontalList) {
         this.horizontalList = horizontalList;
     }
 
@@ -36,20 +37,12 @@ public class AsistenciasAdapter extends RecyclerView.Adapter<AsistenciasAdapter.
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_item_horizontal, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.txtView.setText(horizontalList.get(position));
-
-        holder.txtView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                    Toast.makeText(MainActivity.this,holder.txtView.getText().toString(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.txtView.setText(horizontalList.get(position).getFecha() + ": " + horizontalList.get(position).getAsistio());
     }
 
     @Override

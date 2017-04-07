@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.activities;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.adapters.DisciplinaAdapter;
 import com.ricardo.controlasistenciaipd.pojos.Asistencia;
 
@@ -56,26 +57,26 @@ public class DetalleAlumnoActivity extends AppCompatActivity {
         });
 
         items = new ArrayList<Asistencia>();
-        items.add(new Asistencia("01/07/2017",true));
-        items.add(new Asistencia("08/07/2017",true));
-        items.add(new Asistencia("15/07/2017",true));
-        items.add(new Asistencia("22/07/2017",false));
-        items.add(new Asistencia("29/07/2017",true));
-        items.add(new Asistencia("01/08/2017",true));
-        items.add(new Asistencia("08/08/2017",true));
-        items.add(new Asistencia("15/082017",true));
-        items.add(new Asistencia("22/08/2017",true));
-        items.add(new Asistencia("29/08/2017",true));
-        items.add(new Asistencia("01/09/2017",true));
-        items.add(new Asistencia("08/09/2017",true));
-        items.add(new Asistencia("15/09/2017",true));
-        items.add(new Asistencia("22/09/2017",true));
-        items.add(new Asistencia("29/09/2017",true));
-        items.add(new Asistencia("01/10/2017",true));
-        items.add(new Asistencia("08/10/2017",false));
-        items.add(new Asistencia("15/10/2017",true));
-        items.add(new Asistencia("22/10/2017",true));
-        items.add(new Asistencia("29/10/2017",true));
+        items.add(new Asistencia("01/07/2017","A"));
+        items.add(new Asistencia("08/07/2017","A"));
+        items.add(new Asistencia("15/07/2017","A"));
+        items.add(new Asistencia("22/07/2017","F"));
+        items.add(new Asistencia("29/07/2017","A"));
+        items.add(new Asistencia("01/08/2017","A"));
+        items.add(new Asistencia("08/08/2017","A"));
+        items.add(new Asistencia("15/082017","A"));
+        items.add(new Asistencia("22/08/2017","A"));
+        items.add(new Asistencia("29/08/2017","A"));
+        items.add(new Asistencia("01/09/2017","A"));
+        items.add(new Asistencia("08/09/2017","A"));
+        items.add(new Asistencia("15/09/2017","A"));
+        items.add(new Asistencia("22/09/2017","A"));
+        items.add(new Asistencia("29/09/2017","A"));
+        items.add(new Asistencia("01/10/2017","A"));
+        items.add(new Asistencia("08/10/2017","F"));
+        items.add(new Asistencia("15/10/2017","A"));
+        items.add(new Asistencia("22/10/2017","A"));
+        items.add(new Asistencia("29/10/2017","A"));
 
 
 

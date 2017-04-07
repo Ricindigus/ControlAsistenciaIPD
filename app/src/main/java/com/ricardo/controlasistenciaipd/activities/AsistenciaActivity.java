@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.adapters.AlumnoAdapter;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 
@@ -407,115 +408,3 @@ public class AsistenciaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-
-//    @SuppressLint("NewApi")
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        // TODO Auto-generated method stub
-//        if (keyCode == event.KEYCODE_BACK) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-//                    .setTitle("Aviso")
-//                    .setCancelable(false)
-//                    .setNegativeButton("No",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    dialog.cancel();
-//                                }
-//                            })
-//                    .setPositiveButton("Sí",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-//                                    i.putExtra("cod", recuperadoCodDocente);
-//                                    startActivity(i);
-//                                }
-//                            });
-//            AlertDialog alert = builder.create();
-//            alert.show();
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
-//    @SuppressLint("NewApi")
-//    public void salirApp(View view){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-//                .setTitle("Aviso")
-//                .setCancelable(false)
-//                .setNegativeButton("No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        })
-//                .setPositiveButton("Sí",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-//                                i.putExtra("cod", recuperadoCodDocente);
-//                                startActivity(i);
-//                            }
-//                        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-
-//    @SuppressLint("NewApi")
-//    public void salirSinDatos(View view){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("No existen datos para mostrar, ya ha guardado todas las asistencias del día o esta fuera del horario")
-//                .setTitle("Aviso")
-//                .setCancelable(false)
-//                .setPositiveButton("Salir",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                finishAffinity();
-//                            }
-//                        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//    public void showToolbar(String title, boolean upButton){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_asistencia);
-//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(title);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
-//    }
-
-
-
-//        horarios.add("LUN/MIE/VIE 14:00-15:00");
-//        horarios.add("LUN/MIE/VIE 15:00-16:00");
-//        horarios.add("LUN/MIE/VIE 16:00-17:00");
-//        horarios.add("MAR/JUE 14:00-15:00");
-//        horarios.add("MAR/JUE 15:00-16:00");
-//        horarios.add("MAR/JUE 16:00-17:00");
-//        horarios.add("SAB 08:00-09:00");
-//        horarios.add("SAB 09:00-10:00");
-//        horarios.add("SAB 10:00-11:00");
-//        complejos.add("ESTADIO NACIONAL");
-//        complejos.add("ESTADIO DELLE ALPHI");
-//        complejos.add("ESTADIO CAMP NOU");
-//        complejos.add("EMIRATES STADIUM");
-//        complejos.add("ESTADIO SANTIAGO BERNABEU");
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));
-//        items.add(new Alumno("","Denis Ricardo","Morales Retamozo",false));
-//        items.add(new Alumno("","Alan Arnold","Ramos Perales",false));

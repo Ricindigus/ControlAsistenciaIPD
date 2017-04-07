@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.adapters.AlumnoConfirmarAdapter;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 

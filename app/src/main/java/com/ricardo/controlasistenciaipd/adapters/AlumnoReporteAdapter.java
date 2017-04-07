@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ricardo.controlasistenciaipd.pojos.AlumnoReporte;
+import com.ricardo.controlasistenciaipd.pojos.Asistencia;
+import com.ricardo.controlasistenciaipd.pojos.ReporteAlumno;
 import com.ricardo.controlasistenciaipd.R;
+import com.ricardo.controlasistenciaipd.pojos.ReporteGeneral;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdapter.AlumnoViewHolder> {
-    private ArrayList<AlumnoReporte> items;
+    private ArrayList<ReporteGeneral> items;
     private Application application;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +37,7 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
         }
     }
 
-    public AlumnoReporteAdapter(ArrayList<AlumnoReporte> items, Application application) {
+    public AlumnoReporteAdapter(ArrayList<ReporteGeneral> items, Application application) {
         this.items = items;
         this.application = application;
     }
@@ -51,17 +53,24 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
         viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        ArrayList<String> horizontalList = new ArrayList<>();
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
-        horizontalList.add("13/02/2017:A");
+        ArrayList<Asistencia> horizontalList = new ArrayList<Asistencia>();
+        horizontalList = items.get(i).getAsistencias();
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+//        horizontalList.add(new Asistencia("13/02/2017","A"));
+        if(horizontalList.size() == 0) horizontalList.add(new Asistencia("Registros encontrados" +
+                "","0"));
         AsistenciasAdapter horizontalAdapter = new AsistenciasAdapter(horizontalList);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(application, LinearLayoutManager.HORIZONTAL, false);
         viewHolder.recyclerViewAsistencias.setLayoutManager(horizontalLayoutManager);

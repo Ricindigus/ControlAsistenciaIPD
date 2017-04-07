@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,50 +20,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AsistenciaActivity"
-            android:parentActivityName=".MenuActivity"
+            android:name=".activities.AsistenciaActivity"
+            android:parentActivityName=".activities.MenuActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value=".activities.MenuActivity" />
         </activity>
         <activity
-            android:name=".ConfirmarActivity"
+            android:name=".activities.ConfirmarActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".AsistenciaActivity">
+            android:parentActivityName=".activities.AsistenciaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AsistenciaActivity" />
+                android:value=".activities.AsistenciaActivity" />
         </activity>
         <activity
-            android:name=".GuardarActivity"
+            android:name=".activities.GuardarActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".ConfirmarActivity"/>
+            android:parentActivityName=".activities.ConfirmarActivity"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ConfirmarActivity"/>
+                android:value=".activities.ConfirmarActivity"/>
         <activity
-            android:name=".FinalizarActivity"
+            android:name=".activities.FinalizarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".activities.MenuActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReportesActivity"
-            android:parentActivityName=".MenuActivity"
+            android:name=".activities.ReportesActivity"
+            android:parentActivityName=".activities.MenuActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value=".activities.MenuActivity" />
         </activity>
 
-        <activity android:name=".DetalleAlumnoActivity"
-            android:parentActivityName=".ReportesActivity"
+        <activity android:name=".activities.DetalleAlumnoActivity"
+            android:parentActivityName=".activities.ReportesActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ReportesActivity" />
+                android:value=".activities.ReportesActivity" />
         </activity>
     </application>
 

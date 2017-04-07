@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ import android.view.ViewGroup;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 import com.ricardo.controlasistenciaipd.adapters.BuscadorAdapter;
-import com.ricardo.controlasistenciaipd.DetalleAlumnoActivity;
+import com.ricardo.controlasistenciaipd.activities.DetalleAlumnoActivity;
 import com.ricardo.controlasistenciaipd.R;
 
 import java.util.ArrayList;
@@ -62,6 +63,14 @@ public class AlumnoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_alumno, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         items.add(new Alumno("43372489","Denis Ricardo", "Morales Retamozo",true));
         items.add(new Alumno("44556677","Jesus Falen","Garcia Suarez",true));
         items.add(new Alumno("54342223","Alan Arnold","Pajuelo Lincon",true));
@@ -74,9 +83,6 @@ public class AlumnoFragment extends Fragment {
         items.add(new Alumno("33221109","Juan Pablo","Messi Nazario",true));
         items.add(new Alumno("32145332","Juan Jose","Ore Yepez",true));
         items.add(new Alumno("37221234","Guiliana Lisa","Montes Fajardo",false));
-
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_alumno, container, false);
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_busqueda);
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setTitle("Buscar Alumno");
@@ -145,8 +151,8 @@ public class AlumnoFragment extends Fragment {
                 return true;
             }
         });
-        return view;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

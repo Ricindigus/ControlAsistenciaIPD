@@ -49,7 +49,7 @@ public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.My
     @Override
     public void onBindViewHolder(DisciplinaAdapter.MyViewHolder viewHolder, int i) {
         viewHolder.txtFecha.setText(items.get(i).getFecha());
-        if(!items.get(i).getAsistencia()) viewHolder.txtAsistencia.setText("Faltó");
+        if(items.get(i).getAsistio().equals("F")) viewHolder.txtAsistencia.setText("Faltó");
         else viewHolder.txtAsistencia.setText("Asistió");
 
     }

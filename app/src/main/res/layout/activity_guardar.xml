@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.ricardo.controlasistenciaipd.GuardarActivity">
+    tools:context="com.ricardo.controlasistenciaipd.activities.GuardarActivity">
 
     <include layout="@layout/toolbar_actionbar"/>
 

@@ -6,9 +6,9 @@ package com.ricardo.controlasistenciaipd.pojos;
 
 public class Asistencia {
     private String fecha;
-    private boolean asistio;
+    private String asistio;
 
-    public Asistencia(String fecha, boolean asistio) {
+    public Asistencia(String fecha, String asistio) {
         this.fecha = fecha;
         this.asistio = asistio;
     }
@@ -21,11 +21,11 @@ public class Asistencia {
         this.fecha = fecha;
     }
 
-    public boolean getAsistencia() {
+    public String getAsistio() {
         return asistio;
     }
 
-    public void setAsistio(boolean asistio) {
+    public void setAsistio(String asistio) {
         this.asistio = asistio;
     }
 }

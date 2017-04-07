@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
                     <Button
-                        android:id="@+id/btnGuardar"
+                        android:id="@+id/btnBuscarRepotes"
                         android:text="buscar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

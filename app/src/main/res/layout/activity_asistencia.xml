@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/rootView"
-    tools:context="com.ricardo.controlasistenciaipd.AsistenciaActivity">
+    tools:context="com.ricardo.controlasistenciaipd.activities.AsistenciaActivity">
 
     <include layout="@layout/toolbar_actionbar"/>
 

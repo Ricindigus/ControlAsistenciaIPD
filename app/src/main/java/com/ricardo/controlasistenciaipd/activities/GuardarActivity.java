@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 
 import org.json.JSONArray;
@@ -123,7 +124,7 @@ public class GuardarActivity extends AppCompatActivity {
                             codigoError = 1;
                         }else{
                             //actualizar
-                            String resultado2 = actualizarEstado(codigoHorario);
+//                            String resultado2 = actualizarEstado(codigoHorario);
                         }
                     }catch(Exception e){}
                 }
@@ -187,26 +188,26 @@ public class GuardarActivity extends AppCompatActivity {
         }catch(Exception e){}
         return resul.toString();
     }
-    public String actualizarEstado(String codHorario){
-        URL url=null;
-        String linea="";
-        int respuesta=0;
-        StringBuilder resul=null;
-        try{
-            url = new URL(hostIpdDesarrollo + "actualizarestado.php?hor=" + codHorario);
-            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
-            respuesta=conection.getResponseCode();
-            resul=new StringBuilder();
-            if(respuesta==HttpURLConnection.HTTP_OK){
-                InputStream in=new BufferedInputStream(conection.getInputStream());
-                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
-            }
-        }catch(Exception e){}
-        return resul.toString();
-    }
+//    public String actualizarEstado(String codHorario){
+//        URL url=null;
+//        String linea="";
+//        int respuesta=0;
+//        StringBuilder resul=null;
+//        try{
+//            url = new URL(hostIpdDesarrollo + "actualizarestado.php?hor=" + codHorario);
+//            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+//            respuesta=conection.getResponseCode();
+//            resul=new StringBuilder();
+//            if(respuesta==HttpURLConnection.HTTP_OK){
+//                InputStream in=new BufferedInputStream(conection.getInputStream());
+//                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+//                while((linea=reader.readLine())!=null){
+//                    resul.append(linea);
+//                }
+//            }
+//        }catch(Exception e){}
+//        return resul.toString();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

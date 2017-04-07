@@ -1,4 +1,4 @@
-package com.ricardo.controlasistenciaipd;
+package com.ricardo.controlasistenciaipd.activities;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.ricardo.controlasistenciaipd.R;
 
 import org.json.JSONArray;
 

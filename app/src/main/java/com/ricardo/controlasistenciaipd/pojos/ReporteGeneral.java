@@ -1,22 +1,30 @@
 package com.ricardo.controlasistenciaipd.pojos;
 
+import java.util.ArrayList;
+
 /**
- * Created by RICARDO on 4/03/2017.
+ * Created by apoyo03-ui on 31/03/2017.
  */
 
-public class AlumnoReporte {
+public class ReporteGeneral {
+    private String codigo;
     private String nombres;
     private String apellidos;
-    private int edad;
-    private boolean[] asistencias;
+    private ArrayList<Asistencia> asistencias;
 
-    public AlumnoReporte(){}
-
-    public AlumnoReporte(String nombres, String apellidos, int edad, boolean[] asistencias) {
+    public ReporteGeneral(String codigo, String nombres, String apellidos, ArrayList<Asistencia> asistencias) {
+        this.codigo = codigo;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.edad = edad;
         this.asistencias = asistencias;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNombres() {
@@ -35,19 +43,11 @@ public class AlumnoReporte {
         this.apellidos = apellidos;
     }
 
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public boolean[] getAsistencias() {
+    public ArrayList<Asistencia> getAsistencias() {
         return asistencias;
     }
 
-    public void setAsistencias(boolean[] asistencias) {
+    public void setAsistencias(ArrayList<Asistencia> asistencias) {
         this.asistencias = asistencias;
     }
 }
