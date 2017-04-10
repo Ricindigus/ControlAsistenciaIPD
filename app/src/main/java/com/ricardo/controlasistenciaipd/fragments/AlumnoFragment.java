@@ -23,11 +23,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.ricardo.controlasistenciaipd.adapters.AlumnoReporteAdapter;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 import com.ricardo.controlasistenciaipd.adapters.BuscadorAdapter;
 import com.ricardo.controlasistenciaipd.activities.DetalleAlumnoActivity;
 import com.ricardo.controlasistenciaipd.R;
+import com.ricardo.controlasistenciaipd.pojos.Asistencia;
+import com.ricardo.controlasistenciaipd.pojos.ReporteGeneral;
 
+import org.json.JSONArray;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -39,10 +50,16 @@ public class AlumnoFragment extends Fragment {
     String recuperado = "", evento =  "", nomEvento = "";
     RecyclerView recyclerView;
     ArrayList<Alumno> lstFound;
+
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     MaterialSearchView materialSearchView;
     ArrayList<Alumno> items = new ArrayList<Alumno>();
+    ArrayList<String> codigoAlumnos = new ArrayList<String>();
+    private String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
+    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
+    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
 
     public AlumnoFragment() {
         // Required empty public constructor
@@ -71,32 +88,42 @@ public class AlumnoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        items.add(new Alumno("43372489","Denis Ricardo", "Morales Retamozo",true));
-        items.add(new Alumno("44556677","Jesus Falen","Garcia Suarez",true));
-        items.add(new Alumno("54342223","Alan Arnold","Pajuelo Lincon",true));
-        items.add(new Alumno("57443322","Enrique Julio","Flores Dibala",true));
-        items.add(new Alumno("66557744","Laura Rosa Sosa","Villanueva",false));
-        items.add(new Alumno("44332211","Cesar Bernabe","Quispe Rodriguez",true));
-        items.add(new Alumno("55443322","Helton Javier","Aiquipa Robles",true));
-        items.add(new Alumno("25887765","Cindy Laura","Maldonado Quispe",false));
-        items.add(new Alumno("55332211","Nilton Gregorio","Armas Domenech",true));
-        items.add(new Alumno("33221109","Juan Pablo","Messi Nazario",true));
-        items.add(new Alumno("32145332","Juan Jose","Ore Yepez",true));
-        items.add(new Alumno("37221234","Guiliana Lisa","Montes Fajardo",false));
+//        items.add(new Alumno("43372489","Denis Ricardo", "Morales Retamozo",true));
+//        items.add(new Alumno("44556677","Jesus Falen","Garcia Suarez",true));
+//        items.add(new Alumno("54342223","Alan Arnold","Pajuelo Lincon",true));
+//        items.add(new Alumno("57443322","Enrique Julio","Flores Dibala",true));
+//        items.add(new Alumno("66557744","Laura Rosa Sosa","Villanueva",false));
+//        items.add(new Alumno("44332211","Cesar Bernabe","Quispe Rodriguez",true));
+//        items.add(new Alumno("55443322","Helton Javier","Aiquipa Robles",true));
+//        items.add(new Alumno("25887765","Cindy Laura","Maldonado Quispe",false));
+//        items.add(new Alumno("55332211","Nilton Gregorio","Armas Domenech",true));
+//        items.add(new Alumno("33221109","Juan Pablo","Messi Nazario",true));
+//        items.add(new Alumno("32145332","Juan Jose","Ore Yepez",true));
+//        items.add(new Alumno("37221234","Guiliana Lisa","Montes Fajardo",false));
+
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_busqueda);
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setTitle("Buscar Alumno");
         toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         materialSearchView = (MaterialSearchView)view.findViewById(R.id.search_view);
-
         recyclerView = (RecyclerView)view.findViewById(R.id.lista);
-        recyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
+        Thread tr = new Thread() {
+            @Override
+            public void run() {
+                final String resAlumnos = traerAlumnos(evento,recuperado);
+                items = ArregloLista(resAlumnos);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        cargarRecyclerView(ArregloLista(resAlumnos));
+                    }
+                });
+            }
+        };
+        tr.start();
 
-        mAdapter = getBuscadorAdapter(items);
-        recyclerView.setAdapter(mAdapter);
+
 
         materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -167,6 +194,48 @@ public class AlumnoFragment extends Fragment {
         materialSearchView.setMenuItem(menuItem);
     }
 
+    public String traerAlumnos(String codEve, String codDoc){
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try{
+            url = new URL(hostIpdDesarrollo + "ListarAlumnosXProfesor.php?eve=" + codEve + "&doc="+ codDoc);
+            HttpURLConnection conection=(HttpURLConnection)url.openConnection();
+            respuesta=conection.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK){
+                InputStream in=new BufferedInputStream(conection.getInputStream());
+                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+                while((linea=reader.readLine())!=null){
+                    resul.append(linea);
+                }
+            }
+        }catch(Exception e){}
+        return resul.toString();
+    }
+    public ArrayList<Alumno> ArregloLista(String response){
+        ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+        try{
+            JSONArray json=new JSONArray(response);
+            for(int i=0; i<json.length();i++){
+                alumnos.add(new Alumno(
+                        json.getJSONObject(i).getString("codigo"),
+                        json.getJSONObject(i).getString("nombres"),
+                        json.getJSONObject(i).getString("apepaterno") + " " + json.getJSONObject(i).getString("apematerno"),
+                        false));
+            }
+        }catch(Exception e){}
+        return alumnos;
+    }
+    public void cargarRecyclerView(ArrayList<Alumno> datos){
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        recyclerView.setHasFixedSize(true);
+        mAdapter = getBuscadorAdapter(datos);
+        recyclerView.setAdapter(mAdapter);
+    }
     public BuscadorAdapter getBuscadorAdapter(final ArrayList<Alumno> elementos){
         return new BuscadorAdapter(elementos, new BuscadorAdapter.OnItemClickListener() {
             @Override
@@ -184,11 +253,9 @@ public class AlumnoFragment extends Fragment {
                 });
                 colorAnimation.start();
                 Intent intent = new Intent(getContext(), DetalleAlumnoActivity.class);
-                intent.putExtra("nombres",elementos.get(position).getNombres());
-                intent.putExtra("apellidos", elementos.get(position).getApellidos());
-                intent.putExtra("dni",elementos.get(position).getCodigo());
-                intent.putExtra("sexo",elementos.get(position).getAsistencia());
+                intent.putExtra("codigoAlumno",elementos.get(position).getCodigo());
                 intent.putExtra("codigoPonente", recuperado);
+                intent.putExtra("codigoEvento", evento);
                 startActivity(intent);
             }
         });

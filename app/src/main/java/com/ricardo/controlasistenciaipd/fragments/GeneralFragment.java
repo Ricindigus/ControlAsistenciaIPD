@@ -101,12 +101,9 @@ public class GeneralFragment extends Fragment {
 //        cargarSpiner(horarios, 1);
 
         Calendar calendar1 = Calendar.getInstance();
-        dia1 = calendar1.get(Calendar.DAY_OF_MONTH);
-        mes1 = calendar1.get(Calendar.MONTH);
-        anio1 = calendar1.get(Calendar.YEAR);
-        dia2 = calendar1.get(Calendar.DAY_OF_MONTH);
-        mes2 = calendar1.get(Calendar.MONTH);
-        anio2 = calendar1.get(Calendar.YEAR);
+        dia1 = dia2 = calendar1.get(Calendar.DAY_OF_MONTH);
+        mes1 = mes2 = calendar1.get(Calendar.MONTH);
+        anio1 = anio2 = calendar1.get(Calendar.YEAR);
 
         String mAux = "" + (mes1 + 1);
         if(mes1 < 10) mAux = "0" + mAux;
@@ -251,12 +248,12 @@ public class GeneralFragment extends Fragment {
                         txtFecha1.setText(d + "/" + m + "/" + year);
                         fechaInicio = year + "-" + m + "-" + d + "%2000:00:00";
                         anio1 = year;
-                        mes1 = month;
+                        mes1 = month-1;
                         dia1 = dayOfMonth;
                     }
                 },anio1,mes1,dia1);
                 Calendar c = Calendar.getInstance();
-                c.set(anio2,mes2-1,dia2);
+                c.set(anio2,mes2,dia2);
                 datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
@@ -275,12 +272,12 @@ public class GeneralFragment extends Fragment {
                         txtFecha2.setText(d + "/" + m + "/" + year);
                         fechaFin = year + "-" + m + "-" + d + "%2023:59:59";
                         anio2 = year;
-                        mes2 = month;
+                        mes2 = month-1;
                         dia2 = dayOfMonth;
                     }
                 },anio2,mes2,dia2);
                 Calendar c = Calendar.getInstance();
-                c.set(anio1,mes1-1,dia1);
+                c.set(anio1,mes1,dia1);
                 datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ricardo.controlasistenciaipd.pojos.Asistencia;
 import com.ricardo.controlasistenciaipd.pojos.ReporteAlumno;
@@ -52,7 +53,7 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     @Override
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
-        viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
+        viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres().toUpperCase() + " " + items.get(i).getApellidos().toUpperCase()));
         ArrayList<Asistencia> horizontalList = new ArrayList<Asistencia>();
         horizontalList = items.get(i).getAsistencias();
 //        horizontalList.add(new Asistencia("13/02/2017","A"));

@@ -60,7 +60,8 @@ public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        viewHolder.textView.setText(alumnos.get(position).getNombres() + " " + alumnos.get(position).getApellidos());
+        viewHolder.textView.setText(alumnos.get(position).getNombres().toUpperCase()
+                + " " + alumnos.get(position).getApellidos().toUpperCase());
         final int pos = position;
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
