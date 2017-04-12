@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/txt_item_alumno"
         android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"

@@ -55,7 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Docente: Alberto Rodríguez"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textColor="@color/colorIcons"
@@ -65,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Fútbol - 20/10/2017"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:gravity="center"
                         android:textColor="@color/colorIcons"
                         android:textStyle="bold"
@@ -82,7 +82,7 @@
                         android:textColor="@color/colorIcons"
                         android:textStyle="bold"
                         />
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:background="@drawable/spinner_border"
@@ -97,7 +97,15 @@
                             android:backgroundTint="@color/colorAccent"
                             >
                         </Spinner>
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/txt_no_complejos"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No hay complejos"
+                            android:visibility="invisible"/>
+                    </FrameLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
@@ -110,7 +118,7 @@
                         android:textColor="@color/colorIcons"
                         android:textStyle="bold"
                         />
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:background="@drawable/spinner_border"
@@ -124,8 +132,17 @@
                             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
                             android:backgroundTint="@color/colorAccent"
                             >
+
                         </Spinner>
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/txt_no_horarios"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No hay horarios"
+                            android:visibility="invisible"/>
+                    </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -179,7 +196,7 @@
                         android:textAlignment="center"
                         />
                 </LinearLayout>
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
@@ -192,14 +209,25 @@
                         android:layout_marginBottom="1dp"
                         android:scrollbars="vertical"
                         android:background="@drawable/border_layout"/>
-                </LinearLayout>
+                        <TextView
+                            android:background="@color/colorIcons"
+                            android:layout_gravity="center"
+                            android:id="@+id/txt_mensaje_not_found"
+                            android:gravity="center"
+                            android:layout_margin="3dp"
+                            android:padding="@dimen/activity_vertical_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="invisible"
+                            android:text="No hay alumnos para mostrar"/>
+                </FrameLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/btnGuardar"
+                    android:id="@+id/btnContinuar"
                     android:text="CONTINUAR"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"

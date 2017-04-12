@@ -13,9 +13,11 @@
     android:layout_margin="10dp"
     android:elevation="2dp">
     <TextView
+        android:layout_margin="1dp"
+        android:background="@drawable/borde_cardview_asistencia"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/colorAccent"
         android:textSize="13sp"
         android:id="@+id/txtView"
         android:text="Hola"

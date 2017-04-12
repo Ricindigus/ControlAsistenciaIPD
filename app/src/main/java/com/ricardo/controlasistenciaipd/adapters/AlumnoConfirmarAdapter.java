@@ -16,10 +16,9 @@ import java.util.ArrayList;
  */
 
 public class AlumnoConfirmarAdapter extends RecyclerView.Adapter<AlumnoConfirmarAdapter.AlumnoViewHolder> {
-    private ArrayList<Alumno> items;
+    private ArrayList<Alumno> alumnosConfirmar;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
-        // Campos respectivos de un item
         public TextView numeroAlumno;
         public TextView nombreAlumno;
         public TextView asistenciaAlumno;
@@ -33,25 +32,25 @@ public class AlumnoConfirmarAdapter extends RecyclerView.Adapter<AlumnoConfirmar
     }
 
     public AlumnoConfirmarAdapter(ArrayList<Alumno> items) {
-        this.items = items;
+        this.alumnosConfirmar = items;
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return alumnosConfirmar.size();
     }
 
     @Override
     public AlumnoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cardview_confirmar, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_alumno_confirmar, viewGroup, false);
         return new AlumnoViewHolder(v);
     }
     @Override
     public void onBindViewHolder(AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
-        viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        if(items.get(i).getAsistencia() == true) viewHolder.asistenciaAlumno.setText("A");
+        viewHolder.nombreAlumno.setText(String.valueOf(alumnosConfirmar.get(i).getNombres() +
+                " " + alumnosConfirmar.get(i).getApellidos()).toUpperCase());
+        if(alumnosConfirmar.get(i).getAsistencia() == true) viewHolder.asistenciaAlumno.setText("A");
         else viewHolder.asistenciaAlumno.setText("F");
     }
 }

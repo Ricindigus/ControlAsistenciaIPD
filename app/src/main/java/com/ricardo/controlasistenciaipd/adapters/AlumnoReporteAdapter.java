@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ricardo.controlasistenciaipd.pojos.Asistencia;
-import com.ricardo.controlasistenciaipd.pojos.ReporteAlumno;
 import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.pojos.ReporteGeneral;
 
@@ -21,11 +19,10 @@ import java.util.ArrayList;
  */
 
 public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdapter.AlumnoViewHolder> {
-    private ArrayList<ReporteGeneral> items;
+    private ArrayList<ReporteGeneral> alumnosReporte;
     private Application application;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
-        // Campos respectivos de un item
         public TextView numeroAlumno;
         public TextView nombreAlumno;
         public RecyclerView recyclerViewAsistencias;
@@ -39,7 +36,7 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     }
 
     public AlumnoReporteAdapter(ArrayList<ReporteGeneral> items, Application application) {
-        this.items = items;
+        this.alumnosReporte = items;
         this.application = application;
     }
 
@@ -47,32 +44,17 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
     @Override
     public AlumnoReporteAdapter.AlumnoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cardview_alumno_reporte, viewGroup, false);
+                .inflate(R.layout.item_alumno_reporte_general, viewGroup, false);
         return new AlumnoReporteAdapter.AlumnoViewHolder(v);
     }
     @Override
     public void onBindViewHolder(AlumnoReporteAdapter.AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
-        viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres().toUpperCase() + " " + items.get(i).getApellidos().toUpperCase()));
+        viewHolder.nombreAlumno.setText(String.valueOf(alumnosReporte.get(i).getNombres().toUpperCase() + " " + alumnosReporte.get(i).getApellidos().toUpperCase()));
         ArrayList<Asistencia> horizontalList = new ArrayList<Asistencia>();
-        horizontalList = items.get(i).getAsistencias();
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-//        horizontalList.add(new Asistencia("13/02/2017","A"));
-        if(horizontalList.size() == 0) horizontalList.add(new Asistencia("Registros encontrados" +
-                "","0"));
-        AsistenciasAdapter horizontalAdapter = new AsistenciasAdapter(horizontalList);
+        horizontalList = alumnosReporte.get(i).getAsistencias();
+        if(horizontalList.size() == 0) horizontalList.add(new Asistencia("Registros encontrados" + "","0"));
+        ListaHorizontalAsistenciasAdapter horizontalAdapter = new ListaHorizontalAsistenciasAdapter(horizontalList);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(application, LinearLayoutManager.HORIZONTAL, false);
         viewHolder.recyclerViewAsistencias.setLayoutManager(horizontalLayoutManager);
         viewHolder.recyclerViewAsistencias.setAdapter(horizontalAdapter);
@@ -80,7 +62,7 @@ public class AlumnoReporteAdapter extends RecyclerView.Adapter<AlumnoReporteAdap
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return alumnosReporte.size();
     }
 
 }

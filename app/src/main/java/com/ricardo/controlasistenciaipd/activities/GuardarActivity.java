@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.Conexiones;
 import com.ricardo.controlasistenciaipd.R;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 
@@ -27,19 +28,17 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class GuardarActivity extends AppCompatActivity {
-    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
-    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
-    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
-    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
-    int codigoError = 0;
-    String codigoPonente="";
-    String codigoEvento = "";
-    String codigoHorario = "";
-    String nombreEvento = "";
-    EditText txtObservacion;
-    ArrayList<Alumno> asistenciaAlumnos;
-    String fechaHoy ="";
-    TextView txtFecha;
+    private String host = Conexiones.host;
+    private int codigoError = 0;
+    private String codigoPonente="";
+    private String codigoEvento = "";
+    private String codigoHorario = "";
+    private String nombreEvento = "";
+    private EditText txtObservacion;
+    private ArrayList<Alumno> asistenciaAlumnos;
+    private String fechaHoy ="";
+    private TextView txtFecha;
+    private Toolbar toolbar;
     public static Activity actividad;
 
 
@@ -59,9 +58,8 @@ public class GuardarActivity extends AppCompatActivity {
             nombreEvento = recupera.getString("nombreEvento");
             fechaHoy = recupera.getString("fecha");
         }
-//        showToolbar("Guardar Asistencia",true);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Guardar Asistencia");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -111,11 +109,8 @@ public class GuardarActivity extends AppCompatActivity {
                     }catch(Exception e){}
                     i++;
                 }
-                if(incorrecto){
-                    codigoError = 1;
-                } else{
-                        //Aqui va el codigo
-
+                if(incorrecto){ codigoError = 1;}
+                else{
                     String resultado = registrarObservacion(codigoHorario, codigoPonente,txtObservacion.getText().toString());
                     try{
                         JSONArray json = new JSONArray(resultado);
@@ -142,9 +137,6 @@ public class GuardarActivity extends AppCompatActivity {
             }
         };
         tr2.start();
-        /*Intent intent = new Intent(this, FinalizarActivity.class);
-        intent.putExtra("error", codigoError);
-        startActivity(intent);*/
     }
 
     public String tomarAsistencia(String codAlumno, String codPonente, boolean asistencia){
@@ -153,7 +145,7 @@ public class GuardarActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "tomarasistencia.php?alu="+codAlumno+"&pon="+codPonente+"&asi="+asistencia);
+            url = new URL(host + "tomarasistencia.php?alu="+codAlumno+"&pon="+codPonente+"&asi="+asistencia);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
@@ -174,7 +166,7 @@ public class GuardarActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "registrarobservacion.php?hor=" + codHorario + "&pon=" + codPonente + "&obs=" + observacion);
+            url = new URL(host + "registrarobservacion.php?hor=" + codHorario + "&pon=" + codPonente + "&obs=" + observacion);
             HttpURLConnection conection = (HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
@@ -211,19 +203,13 @@ public class GuardarActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_asistencia, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_volver_menu) {
             Intent i = new Intent(getApplicationContext(), MenuActivity.class);
             i.putExtra("codigoPonente", codigoPonente);
@@ -233,35 +219,4 @@ public class GuardarActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-//    @SuppressLint("NewApi")
-//    public void salirApp(View view){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-//                .setTitle("Aviso")
-//                .setCancelable(false)
-//                .setNegativeButton("No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        })
-//                .setPositiveButton("Sí",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-//                                i.putExtra("cod", codigoPonente);
-//                                startActivity(i);
-//                            }
-//                        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-
-//    public void showToolbar(String title, boolean upButton){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_asistencia);
-//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(title);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
-//    }
 }

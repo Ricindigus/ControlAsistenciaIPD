@@ -10,10 +10,10 @@ import com.ricardo.controlasistenciaipd.R;
 
 public class FinalizarActivity extends AppCompatActivity {
 
-    int codigoError = 0;
-    String codEvento = "",codPonente = "", nomEvento = "";
-    TextView txtResultado;
-    TextView txtMensaje;
+    private int codigoError = 0;
+    private String codEvento = "", codigoPonente = "", nomEvento = "";
+    private TextView txtResultado;
+    private TextView txtMensaje;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,7 @@ public class FinalizarActivity extends AppCompatActivity {
         Bundle recupera = getIntent().getExtras();
         if(recupera != null){
             codigoError = recupera.getInt("codigoError");
-            codPonente = recupera.getString("codigoPonente");
+            codigoPonente = recupera.getString("codigoPonente");
             codEvento = recupera.getString("codigoEvento");
             nomEvento = recupera.getString("nombreEvento");
         }
@@ -49,7 +49,7 @@ public class FinalizarActivity extends AppCompatActivity {
         ConfirmarActivity.actividad.finish();
         AsistenciaActivity.actividad.finish();
         Intent i = new Intent(this, AsistenciaActivity.class);
-        i.putExtra("codigoPonente", codPonente);
+        i.putExtra("codigoPonente", codigoPonente);
         i.putExtra("codigoEvento", codEvento);
         i.putExtra("nombreEvento",nomEvento);
         startActivity(i);

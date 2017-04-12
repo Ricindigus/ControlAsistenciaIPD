@@ -16,11 +16,10 @@ import java.util.ArrayList;
  * Created by RICARDO on 20/12/2016.
  */
 
-public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder> {
-    private ArrayList<Alumno> items;
+public class AlumnoAsistenciaAdapter extends RecyclerView.Adapter<AlumnoAsistenciaAdapter.AlumnoViewHolder> {
+    private ArrayList<Alumno> alumnosAsistencia;
 
     public static class AlumnoViewHolder extends RecyclerView.ViewHolder {
-        // Campos respectivos de un item
         public TextView numeroAlumno;
         public TextView nombreAlumno;
         public CheckBox asistenciaAlumno;
@@ -33,30 +32,27 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoView
         }
     }
 
-    public AlumnoAdapter(ArrayList<Alumno> items) {
-        this.items = items;
+    public AlumnoAsistenciaAdapter(ArrayList<Alumno> items) {
+        this.alumnosAsistencia = items;
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return alumnosAsistencia.size();
     }
 
     @Override
     public AlumnoViewHolder onCreateViewHolder(final ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cardview_alumno, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_alumno_asistencia, viewGroup, false);
         return new AlumnoViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(AlumnoViewHolder viewHolder, int i) {
         viewHolder.numeroAlumno.setText(""+(i+1));
-        viewHolder.nombreAlumno.setText(String.valueOf(items.get(i).getNombres() + " " + items.get(i).getApellidos()));
-        if(items.get(i).getAsistencia()==false) viewHolder.asistenciaAlumno.setChecked(false);
+        viewHolder.nombreAlumno.setText(String.valueOf(alumnosAsistencia.get(i).getNombres() + " "
+                + alumnosAsistencia.get(i).getApellidos()).toUpperCase());
+        if(alumnosAsistencia.get(i).getAsistencia()==false) viewHolder.asistenciaAlumno.setChecked(false);
         else viewHolder.asistenciaAlumno.setChecked(true);
     }
-
-
-
 }

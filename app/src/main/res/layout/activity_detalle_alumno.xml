@@ -41,7 +41,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_boy"
                     android:layout_gravity="center"
-                    android:scaleType="fitCenter"/>
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible"/>
                 <ImageView
                     android:id="@+id/img_reporte_alumno_girl"
                     android:layout_width="match_parent"
@@ -62,22 +63,22 @@
                     android:id="@+id/txt_reporte_alumno_nombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DENIS RICARDO"/>
+                    />
                 <TextView
                     android:id="@+id/txt_reporte_alumno_apellidos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MORALES RETAMOZO"/>
+                   />
                 <TextView
                     android:id="@+id/txt_reporte_alumno_dni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="43372489"/>
+                    />
                 <TextView
                     android:id="@+id/txt_reporte_alumno_edad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="5 años"/>
+                   />
 
 
             </LinearLayout>
@@ -95,8 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:text="Complejo: Estadio Matute"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             />
     </android.support.v7.widget.CardView>
@@ -118,9 +118,9 @@
                 android:textColor="@color/colorIcons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fútbol (Asistió:18 / Faltó:2)"
+
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:background="@color/colorAccent"
                 />
@@ -154,9 +154,9 @@
                 android:textColor="@color/colorIcons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Basketball (Asistió:18 / Faltó:2)"
+                android:text="SOLO LLEVA UNA DISCIPLINA"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:background="@color/colorAccent"
                 />

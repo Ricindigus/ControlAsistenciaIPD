@@ -11,11 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
+import com.ricardo.controlasistenciaipd.Conexiones;
 import com.ricardo.controlasistenciaipd.R;
-
 import org.json.JSONArray;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,32 +24,23 @@ import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
 
-    String codEvento = "";
-    String nomEvento = "";
-    String recuperado = "";
-    Spinner spEventos;
-    ArrayList<String> nombresEventos = new ArrayList<String>();
-    ArrayList<String> idEventos = new ArrayList<String>();
-    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
-    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
-    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
-    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+    private String host = Conexiones.host;
+    private String codEvento = "";
+    private String nomEvento = "";
+    private String codPonente = "";
+    private Spinner spEventos;
+    private ArrayList<String> nombresEventos = new ArrayList<String>();
+    private ArrayList<String> idEventos = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        spEventos = (Spinner)findViewById(R.id.sp_menu_eventos);
-//        programas.add("Verano 2017");
-//        programas.add("Otoño 2017");
-//        programas.add("Invierno 2017");
-//        programas.add("Primavera 2017");
-        //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
-        if(recupera!=null){
-            recuperado=recupera.getString("codigoPonente");
-        }
-        //cargarSpiner(programas);
+        if(recupera!=null) codPonente=recupera.getString("codigoPonente");
+
+        spEventos = (Spinner)findViewById(R.id.sp_menu_eventos);
 
         Thread trEventos=new Thread(){
             @Override
@@ -85,16 +74,14 @@ public class MenuActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "ListarEventos.php");
+            url = new URL(host + "ListarEventos.php");
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
                 InputStream in=new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch(Exception e){}
         return resul.toString();
@@ -105,7 +92,6 @@ public class MenuActivity extends AppCompatActivity {
         ArrayList<String> ids = new ArrayList<String>();
         try{
             JSONArray json=new JSONArray(response);
-            String texto="";
             for(int i=0; i<json.length();i++){
                 codEvento = json.getJSONObject(i).getString("id_evento");
                 ids.add(codEvento);
@@ -125,14 +111,14 @@ public class MenuActivity extends AppCompatActivity {
 
     public void goAsistencia(View view){
         Intent i = new Intent(getApplicationContext(), AsistenciaActivity.class);
-        i.putExtra("codigoPonente", recuperado);
+        i.putExtra("codigoPonente", codPonente);
         i.putExtra("codigoEvento", codEvento);
         i.putExtra("nombreEvento",nomEvento);
         startActivity(i);
     }
     public void goReporte(View view){
         Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
-        i.putExtra("codigoPonente", recuperado);
+        i.putExtra("codigoPonente", codPonente);
         i.putExtra("codigoEvento", codEvento);
         i.putExtra("nombreEvento",nomEvento);
         startActivity(i);
@@ -158,6 +144,7 @@ public class MenuActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
     @SuppressLint("NewApi")
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub

@@ -24,58 +24,41 @@ import com.ricardo.controlasistenciaipd.fragments.GeneralFragment;
 
 public class ReportesActivity extends AppCompatActivity {
 
-    String recuperado = "";
-    String evento = "";
-    String nomEvento = "";
+    private String codigoPonente = "", codigoEvento = "", nombreEvento = "";
+    private Toolbar toolbar;
+    private Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportes);
 
-        //recuperando codigo
         final Bundle recupera = getIntent().getExtras();
         if(recupera!=null){
-            recuperado = recupera.getString("codigoPonente");
-            evento = recupera.getString("codigoEvento");
-            nomEvento = recupera.getString("nombreEvento");
+            codigoPonente = recupera.getString("codigoPonente");
+            codigoEvento = recupera.getString("codigoEvento");
+            nombreEvento = recupera.getString("nombreEvento");
         }
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_reportes);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_reportes);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
-        // Setup spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(new MyAdapter(
-                toolbar.getContext(),
-                new String[]{
-                        "Reporte General",
-                        "Reporte por Alumno",
-                }));
-
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(new MyAdapter(toolbar.getContext(), new String[]{"Reporte General", "Reporte por Alumno"}));
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // When the given dropdown item is selected, show its contents in the
-                // container view.
                 Fragment fragment = null;
-                if(position == 0)
-                    fragment = new GeneralFragment(recupera);
-                else
-                    fragment = new AlumnoFragment(recupera, ReportesActivity.this);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
+                if(position == 0) fragment = new GeneralFragment(recupera);
+                else fragment = new AlumnoFragment(recupera, ReportesActivity.this);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
 
@@ -92,18 +75,14 @@ public class ReportesActivity extends AppCompatActivity {
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             View view;
-
             if (convertView == null) {
-                // Inflate the drop down using the helper's LayoutInflater
                 LayoutInflater inflater = mDropDownHelper.getDropDownViewInflater();
                 view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             } else {
                 view = convertView;
             }
-
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setText(getItem(position));
-
             return view;
         }
 
@@ -113,29 +92,14 @@ public class ReportesActivity extends AppCompatActivity {
         }
 
         @Override
-        public void setDropDownViewTheme(Theme theme) {
-            mDropDownHelper.setDropDownViewTheme(theme);
-        }
+        public void setDropDownViewTheme(Theme theme) {mDropDownHelper.setDropDownViewTheme(theme);}
     }
 
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -148,7 +112,6 @@ public class ReportesActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
             View rootView = null;
             int pagina = getArguments().getInt(ARG_SECTION_NUMBER);
-
             switch (pagina) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_general, container, false);

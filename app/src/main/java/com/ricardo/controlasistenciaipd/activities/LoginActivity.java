@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.ricardo.controlasistenciaipd.Conexiones;
 import com.ricardo.controlasistenciaipd.R;
-
 import org.json.JSONArray;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,15 +17,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
-    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
-    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
-    private String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+    private String host = Conexiones.host;
     private Button btnIngresar;
     private EditText txtDni,txtPas;
     private String codPonente = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +40,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int respuesta = 0;
         StringBuilder resul = null;
         try{
-            url = new URL(hostIpdDesarrollo+"Logueo.php?dni="+usu+"&pas="+pas);
+            url = new URL(host + "Logueo.php?dni=" + usu + "&pas=" + pas);
             HttpURLConnection conection = (HttpURLConnection)url.openConnection();
             respuesta = conection.getResponseCode();
             resul = new StringBuilder();
             if(respuesta == HttpURLConnection.HTTP_OK){
                 InputStream in = new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch (Exception e){}
         return resul.toString();

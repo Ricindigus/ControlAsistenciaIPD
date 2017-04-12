@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Morales Retamozo Ricardo"
             android:textColor="@color/colorAccent"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:paddingLeft="10dp"
             android:layout_gravity="center"

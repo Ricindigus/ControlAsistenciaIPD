@@ -31,7 +31,7 @@
             android:text="Morales Retamozo Ricardo"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:paddingLeft="10dp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
@@ -39,7 +39,7 @@
 
             android:id="@+id/cardViewAsistenciaEstado"
             android:text="F"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="10dp"

@@ -29,16 +29,18 @@ public class ConfirmarActivity extends AppCompatActivity {
     private TextView txtDisciplinaFecha;
     private TextView txtHorario;
 
-    private String codigoPonente="";
+    private String codPonente="";
     private String codEvento="";
     private String codHorario="";
     private String nomEvento = "";
     private String nomComplejo = "";
-    private String nomDocente = "";
+    private String nomPonente = "";
     private String nomDisciplina = "";
     private String nomHorario = "";
     private String fechaHoy ="";
     private ArrayList<Alumno> asistenciaAlumnos;
+
+    private Toolbar toolbar;
     public static Activity actividad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +50,19 @@ public class ConfirmarActivity extends AppCompatActivity {
         actividad = this;
         Bundle recupera = getIntent().getExtras();
         if(recupera != null){
-            codigoPonente = recupera.getString("codigoPonente");
+            codPonente = recupera.getString("codigoPonente");
             codEvento = recupera.getString("codigoEvento");
             nomEvento = recupera.getString("nombreEvento");
             nomComplejo = recupera.getString("nombreComplejo");
-            nomDocente = recupera.getString("nombreDocente");
+            nomPonente = recupera.getString("nombreDocente");
             nomDisciplina = recupera.getString("nombreDisciplina");
             nomHorario = recupera.getString("nombreHorario");
             codHorario = recupera.getString("codigoHorario");
             fechaHoy = recupera.getString("fecha");
             asistenciaAlumnos = (ArrayList<Alumno>)recupera.getSerializable("alumnos");
         }
-//        showToolbar("Confirmar Asistencia",true);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Confirmar Asistencia");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -78,7 +80,7 @@ public class ConfirmarActivity extends AppCompatActivity {
 
         txtEvento.setText(nomEvento);
         txtComplejo.setText(nomComplejo);
-        txtDocente.setText(nomDocente);
+        txtDocente.setText(nomPonente);
         txtDisciplinaFecha.setText(nomDisciplina + " - " + fechaHoy);
         txtHorario.setText(nomHorario);
         recycler = (RecyclerView) findViewById(R.id.recyclerConfirmar);
@@ -94,7 +96,7 @@ public class ConfirmarActivity extends AppCompatActivity {
     public void goGuardar(View view){
         Intent intent = new Intent(this, GuardarActivity.class);
         intent.putExtra("alumnos", asistenciaAlumnos);
-        intent.putExtra("codigoPonente",codigoPonente);
+        intent.putExtra("codigoPonente",codPonente);
         intent.putExtra("codigoEvento",codEvento);
         intent.putExtra("codigoHorario",codHorario);
         intent.putExtra("fecha",fechaHoy);
@@ -104,57 +106,20 @@ public class ConfirmarActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_asistencia, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_volver_menu) {
             Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-            i.putExtra("codigoPonente", codigoPonente);
+            i.putExtra("codigoPonente", codPonente);
             startActivity(i);
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-//    @SuppressLint("NewApi")
-//    public void salirApp(View view){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("¿Está seguro que desea salir? (Se perderán los datos no guardados)")
-//                .setTitle("Aviso")
-//                .setCancelable(false)
-//                .setNegativeButton("No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        })
-//                .setPositiveButton("Sí",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-//                                i.putExtra("cod", codigoPonente);
-//                                startActivity(i);
-//                            }
-//                        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//    public void showToolbar(String title, boolean upButton){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
-//        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(title);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
-//    }
-
 }

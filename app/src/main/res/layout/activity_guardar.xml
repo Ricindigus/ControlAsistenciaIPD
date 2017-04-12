@@ -27,8 +27,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Observaciones"
-                android:textSize="20sp"
+                android:text="OBSERVACIONES"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"/>

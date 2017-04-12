@@ -12,13 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ricardo.controlasistenciaipd.Conexiones;
 import com.ricardo.controlasistenciaipd.R;
-import com.ricardo.controlasistenciaipd.adapters.AlumnoAdapter;
+import com.ricardo.controlasistenciaipd.adapters.AlumnoAsistenciaAdapter;
 import com.ricardo.controlasistenciaipd.pojos.Alumno;
 
 import org.json.JSONArray;
@@ -34,55 +36,50 @@ import java.util.ArrayList;
 
 public class AsistenciaActivity extends AppCompatActivity {
 
-    String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
-    //String hostIpdProduccion = "http://appweb.ipd.gob.pe/sisweb/controlasistencia/";
-    //String hostlocal = "http://10.10.118.16//WebServiceAndroid/";
-    //String hostIpdDesarrollo = "http://181.65.214.123:8082/sisweb/controlasistencia/";
+    private String host = Conexiones.host;
 
-    RecyclerView recycler;
-    RecyclerView.Adapter adapter;
-    RecyclerView.LayoutManager lManager;
-    TextView txtEvento, txtDocente, txtDisciplinaFecha;
-    Spinner spHorarios, spComplejos;
+    private RecyclerView recycler;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager lManager;
+    private TextView txtEvento, txtDocente, txtDisciplinaFecha, txtSinComplejos, txtSinHorarios, txtMensajeRecycler;
+    private Spinner spHorarios, spComplejos;
+    private Button btnContinuar;
 
-    String recuperadoCodDocente="";
-    String recuperadoCodEvento = "";
-    String codHorario = "";
-    String codComplejo ="";
+    private String codPonente = "";
+    private String codEvento = "";
+    private String codHorario = "";
+    private String codComplejo = "";
 
-    String recuperadoNomEvento = "";
-    String descripcionComplejo = "";
-    String descripcionDocente = "";
-    String descripcionDeporte = "";
-    String fechaHoy="";
-    String descripcionHorario = "";
+    private String recuperadoNomEvento = "";
+    private String descripcionComplejo = "";
+    private String descripcionDocente = "";
+    private String descripcionDeporte = "";
+    private String fechaHoy = "";
+    private String descripcionHorario = "";
 
-    ArrayList<String> idComplejos = new ArrayList<String>();
-    ArrayList<String> idHorarios = new ArrayList<String>();
-    ArrayList<String> descComplejos = new ArrayList<String>();
-    ArrayList<String> descHorarios = new ArrayList<String>();
-    ArrayList<Alumno> items = new ArrayList<Alumno>();
+    private ArrayList<String> idComplejos = new ArrayList<String>();
+    private ArrayList<String> idHorarios = new ArrayList<String>();
+    private ArrayList<String> descComplejos = new ArrayList<String>();
+    private ArrayList<String> descHorarios = new ArrayList<String>();
+    private ArrayList<Alumno> items = new ArrayList<Alumno>();
+
+    private Toolbar toolbar;
 
     public static Activity actividad;
-//    ArrayList<String> horarios = new ArrayList<String>();
-//    ArrayList<String> complejos = new ArrayList<String>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistencia);
         actividad = this;
-        //recuperando codigo
         final Bundle recupera=getIntent().getExtras();
         if(recupera != null){
-            recuperadoCodDocente = recupera.getString("codigoPonente");
-            recuperadoCodEvento = recupera.getString("codigoEvento");
+            codPonente = recupera.getString("codigoPonente");
+            codEvento = recupera.getString("codigoEvento");
             recuperadoNomEvento = recupera.getString("nombreEvento");
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_asistencia);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Control de Asistencia");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -92,39 +89,63 @@ public class AsistenciaActivity extends AppCompatActivity {
             }
         });
 
-//        showToolbar("Control de Asistencia", true);
+        btnContinuar = (Button) findViewById(R.id.btnContinuar);
         txtEvento = (TextView)findViewById(R.id.txt_asistencia_evento);
         txtEvento.setText(recuperadoNomEvento);
         txtDocente = (TextView)findViewById(R.id.txt_asistencia_docente);
         txtDisciplinaFecha = (TextView)findViewById(R.id.txt_asistencia_disciplina_fecha);
+        txtSinComplejos = (TextView)findViewById(R.id.txt_no_complejos);
+        txtSinHorarios = (TextView)findViewById(R.id.txt_no_horarios);
+        txtMensajeRecycler = (TextView)findViewById(R.id.txt_mensaje_not_found);
         spComplejos = (Spinner)findViewById(R.id.sp_asistencia_complejos);
         spHorarios=(Spinner)findViewById(R.id.sp_asistencia_horarios);
 
         Thread thread = new Thread(){
             @Override
             public void run() {
-                final String resDetalles = traerDetalles(recuperadoCodEvento, recuperadoCodDocente);
-                final String resComplejos = traerComplejos(recuperadoCodEvento,recuperadoCodDocente);
+                final String resDetalles = traerDetalles(codEvento, codPonente);
+                final String resComplejos = traerComplejos(codEvento,codPonente);
                 try {
                     JSONArray jsonArray = new JSONArray(resComplejos);
                     codComplejo = jsonArray.getJSONObject(0).getString("id_complejo");
                     descripcionComplejo = jsonArray.getJSONObject(0).getString("complejo");
                 } catch (JSONException e) {}
-                final String resHorarios = traerHorarios(recuperadoCodEvento,codComplejo,recuperadoCodDocente);
+                final String resHorarios = traerHorarios(codEvento,codComplejo,codPonente);
                 JSONArray jsonArray = null;
                 try {
                     jsonArray = new JSONArray(resHorarios);
                     codHorario = jsonArray.getJSONObject(0).getString("id_disciplinaevento");
                     descripcionHorario = jsonArray.getJSONObject(0).getString("horario");
                 } catch (JSONException e) {}
-                final String resAlumnos = traerAlumnos(recuperadoCodEvento,codHorario);
+                String resAlumnos = traerAlumnos(codEvento,codHorario);
+                final ArrayList<Alumno> arregloAlumnos = ArregloLista(resAlumnos);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mostrarDetalles(resDetalles);
-                        cargarSpiner(ArregloSpiner(resComplejos,0),0);
-                        cargarSpiner(ArregloSpiner(resHorarios,1),1);
-                        cargarRecyclerView(ArregloLista(resAlumnos));
+                        if(!codComplejo.isEmpty()) {
+                            cargarSpiner(ArregloSpiner(resComplejos,0),0);
+                            if(!codHorario.isEmpty()) {
+                                cargarSpiner(ArregloSpiner(resHorarios,1),1);
+                                if(!arregloAlumnos.isEmpty()) cargarRecyclerView(arregloAlumnos);
+                                else{
+                                    txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                    btnContinuar.setVisibility(View.INVISIBLE);
+                                }
+                            }else{
+                                spHorarios.setVisibility(View.INVISIBLE);
+                                txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                txtSinHorarios.setVisibility(View.VISIBLE);
+                                txtMensajeRecycler.setText("No tiene horarios para este complejo");
+                                btnContinuar.setVisibility(View.INVISIBLE);
+                            }
+                        }else{
+                            spComplejos.setVisibility(View.INVISIBLE);
+                            txtMensajeRecycler.setVisibility(View.VISIBLE);
+                            txtSinComplejos.setVisibility(View.VISIBLE);
+                            txtMensajeRecycler.setText("No existen complejos asignados");
+                            btnContinuar.setVisibility(View.INVISIBLE);
+                        }
                     }
                 });
             }
@@ -139,19 +160,36 @@ public class AsistenciaActivity extends AppCompatActivity {
                 Thread tr = new Thread() {
                     @Override
                     public void run() {
-                        final String resHorarios = traerHorarios(recuperadoCodEvento, codComplejo,recuperadoCodDocente);
+                        final String resHorarios = traerHorarios(codEvento, codComplejo,codPonente);
                         JSONArray jsonArray = null;
                         codHorario = "";
                         try {
                             jsonArray = new JSONArray(resHorarios);
                             codHorario = jsonArray.getJSONObject(0).getString("id_disciplinaevento");
                         } catch (JSONException e) {}
-                        final String resAlumnos = traerAlumnos(recuperadoCodEvento,codHorario);
+                        String resAlumnos = traerAlumnos(codEvento,codHorario);
+                        final ArrayList<Alumno> arregloAlumnos = ArregloLista(resAlumnos);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                cargarSpiner(ArregloSpiner(resHorarios,1),1);
-                                cargarRecyclerView(ArregloLista(resAlumnos));
+                                spHorarios.setVisibility(View.VISIBLE);
+                                txtMensajeRecycler.setVisibility(View.INVISIBLE);
+                                btnContinuar.setVisibility(View.VISIBLE);
+                                txtSinHorarios.setVisibility(View.INVISIBLE);
+                                if(!codHorario.isEmpty()) {
+                                    cargarSpiner(ArregloSpiner(resHorarios,1),1);
+                                    if(!arregloAlumnos.isEmpty()) cargarRecyclerView(arregloAlumnos);
+                                    else{
+                                        txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                        btnContinuar.setVisibility(View.INVISIBLE);
+                                    }
+                                }else{
+                                    spHorarios.setVisibility(View.INVISIBLE);
+                                    txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                    txtSinHorarios.setVisibility(View.VISIBLE);
+                                    txtMensajeRecycler.setText("No tiene horarios para este complejo");
+                                    btnContinuar.setVisibility(View.INVISIBLE);
+                                }
                             }
                         });
                     }
@@ -159,8 +197,7 @@ public class AsistenciaActivity extends AppCompatActivity {
                 tr.start();
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         spHorarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -171,7 +208,7 @@ public class AsistenciaActivity extends AppCompatActivity {
                 Thread tr = new Thread() {
                     @Override
                     public void run() {
-                        final String resAlumnos = traerAlumnos(recuperadoCodEvento,codHorario);
+                        final String resAlumnos = traerAlumnos(codEvento,codHorario);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -184,9 +221,7 @@ public class AsistenciaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -196,16 +231,14 @@ public class AsistenciaActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "ListarDetalle.php?ide=" + codEve + "&cod=" + codDoc);
+            url = new URL(host + "ListarDetalle.php?ide=" + codEve + "&cod=" + codDoc);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
                 InputStream in=new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch(Exception e){}
         return resul.toString();
@@ -217,16 +250,14 @@ public class AsistenciaActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "ListarComplejos.php?ide="+codigoEve+"&cod="+codDoc);
+            url = new URL(host + "ListarComplejos.php?ide="+codigoEve+"&cod="+codDoc);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
                 InputStream in=new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch(Exception e){}
         return resul.toString();
@@ -238,16 +269,14 @@ public class AsistenciaActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "ListarHorarios.php?ide=" + codEve + "&cpj=" + codCom + "&cod=" + codDoc);
+            url = new URL(host + "ListarHorarios.php?ide=" + codEve + "&cpj=" + codCom + "&cod=" + codDoc);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
                 InputStream in=new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch(Exception e){}
         return resul.toString();
@@ -258,22 +287,19 @@ public class AsistenciaActivity extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try{
-            url = new URL(hostIpdDesarrollo + "ListarAlumnos.php?ide=" + codEve + "&hor="+ codHor);
+            url = new URL(host + "ListarAlumnos.php?ide=" + codEve + "&hor="+ codHor);
             HttpURLConnection conection=(HttpURLConnection)url.openConnection();
             respuesta=conection.getResponseCode();
             resul=new StringBuilder();
             if(respuesta==HttpURLConnection.HTTP_OK){
                 InputStream in=new BufferedInputStream(conection.getInputStream());
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
-                }
+                while((linea=reader.readLine())!=null) resul.append(linea);
             }
         }catch(Exception e){}
         return resul.toString();
     }
 
-    //METODO QUE PERMITE MOSTRAR EL NOMBRE
     public void mostrarDetalles(String response){
         try{
             String dDocente = "";
@@ -326,7 +352,6 @@ public class AsistenciaActivity extends AppCompatActivity {
         }
         return listado;
     }
-    //METODO QUE PERMITE CARGAR EL SPINNER
 
     public void cargarSpiner(ArrayList<String> datos, int spinner){
         ArrayAdapter<String> adaptador=new ArrayAdapter<String>(this,R.layout.custom_spinner,datos);
@@ -346,14 +371,8 @@ public class AsistenciaActivity extends AppCompatActivity {
         return items;
     }
     public void cargarRecyclerView(ArrayList<Alumno> datos){
-
-        // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
-
-        // Crear un nuevo adaptador
-        adapter = new AlumnoAdapter(datos);
-
-        // Obtener el Recycler
+        adapter = new AlumnoAsistenciaAdapter(datos);
         recycler = (RecyclerView) findViewById(R.id.reciclador);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(lManager);
@@ -370,8 +389,8 @@ public class AsistenciaActivity extends AppCompatActivity {
     }
     public void goConfirmar(View view){
         Intent intent = new Intent(this, ConfirmarActivity.class);
-        intent.putExtra("codigoPonente",recuperadoCodDocente);
-        intent.putExtra("codigoEvento", recuperadoCodEvento);
+        intent.putExtra("codigoPonente",codPonente);
+        intent.putExtra("codigoEvento", codEvento);
         intent.putExtra("nombreEvento",recuperadoNomEvento);
         intent.putExtra("nombreComplejo",descripcionComplejo);
         intent.putExtra("nombreDocente", descripcionDocente);
@@ -380,27 +399,20 @@ public class AsistenciaActivity extends AppCompatActivity {
         intent.putExtra("codigoHorario",codHorario);
         intent.putExtra("fecha",fechaHoy);
         intent.putExtra("alumnos", items);
-
         startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_asistencia, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_volver_menu) {
             Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-            i.putExtra("codigoPonente", recuperadoCodDocente);
+            i.putExtra("codigoPonente", codPonente);
             startActivity(i);
             finish();
             return true;

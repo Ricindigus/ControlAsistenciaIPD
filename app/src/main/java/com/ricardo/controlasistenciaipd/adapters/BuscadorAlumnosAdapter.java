@@ -16,19 +16,14 @@ import java.util.ArrayList;
  * Created by apoyo03-ui on 15/03/2017.
  */
 
-public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHolder>{
+public class BuscadorAlumnosAdapter extends RecyclerView.Adapter<BuscadorAlumnosAdapter.ViewHolder>{
     private ArrayList<Alumno> alumnos;
     private OnItemClickListener mOnItemClickListener;
-
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
     }
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         private TextView textView;
         private View cardView;
         public ViewHolder(View v) {
@@ -36,30 +31,21 @@ public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHo
             cardView = v;
             textView = (TextView) v.findViewById(R.id.txt_item_alumno);
         }
-
-
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public BuscadorAdapter(ArrayList<Alumno> alumnos,OnItemClickListener onItemClickListener) {
+    public BuscadorAlumnosAdapter(ArrayList<Alumno> alumnos, OnItemClickListener onItemClickListener) {
         this.alumnos = alumnos;
         mOnItemClickListener = onItemClickListener;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public BuscadorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_reporte_alumno, parent, false);
-        return new BuscadorAdapter.ViewHolder(v);
+    public BuscadorAlumnosAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_buscador_alumno, parent, false);
+        return new BuscadorAlumnosAdapter.ViewHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         viewHolder.textView.setText(alumnos.get(position).getNombres().toUpperCase()
                 + " " + alumnos.get(position).getApellidos().toUpperCase());
         final int pos = position;
@@ -71,7 +57,6 @@ public class BuscadorAdapter extends RecyclerView.Adapter<BuscadorAdapter.ViewHo
         });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return alumnos.size();
