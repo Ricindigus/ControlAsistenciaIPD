@@ -152,9 +152,6 @@ public class GeneralFragment extends Fragment {
                             txtSinComplejos.setVisibility(View.VISIBLE);
                             txtMensaje.setText("No existen complejos asignados");
                         }
-//                        cargarSpiner(ArregloSpiner(resComplejos,0),0);
-//                        cargarSpiner(ArregloSpiner(resHorarios,1),1);
-//                        cargarRecyclerView(ArregloReportes(listaAlumnos, resReportes));
                     }
                 });
             }
@@ -198,8 +195,6 @@ public class GeneralFragment extends Fragment {
                                     txtSinHorarios.setVisibility(View.VISIBLE);
                                     txtMensaje.setText("No tiene horarios para este complejo");
                                 }
-//                                cargarSpiner(ArregloSpiner(resHorarios,1),1);
-//                                cargarRecyclerView(ArregloReportes(listaAlumnos, resReportes));
                             }
                         });
                     }
@@ -338,6 +333,7 @@ public class GeneralFragment extends Fragment {
     }
 
     public void mostrarDetalles(String response){
+        txtEvento.setText(nombreEvento);
         try{
             String dDocente = "";
             String dDisciplina = "";
