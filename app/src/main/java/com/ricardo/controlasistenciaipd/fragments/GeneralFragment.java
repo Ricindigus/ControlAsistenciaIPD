@@ -137,20 +137,18 @@ public class GeneralFragment extends Fragment {
                             if(!codHorario.isEmpty()) {
                                 cargarSpiner(ArregloSpiner(resHorarios,1),1);
                                 if(!arregloReportes.isEmpty()) cargarRecyclerView(arregloReportes);
-                                else{
-                                    txtMensaje.setVisibility(View.VISIBLE);
-                                }
+                                else txtMensaje.setVisibility(View.VISIBLE);
                             }else{
                                 spHorarios.setVisibility(View.INVISIBLE);
-                                txtMensaje.setVisibility(View.VISIBLE);
                                 txtSinHorarios.setVisibility(View.VISIBLE);
                                 txtMensaje.setText("No tiene horarios para este complejo");
+                                txtMensaje.setVisibility(View.VISIBLE);
                             }
                         }else{
                             spComplejos.setVisibility(View.INVISIBLE);
-                            txtMensaje.setVisibility(View.VISIBLE);
                             txtSinComplejos.setVisibility(View.VISIBLE);
                             txtMensaje.setText("No existen complejos asignados");
+                            txtMensaje.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -180,20 +178,21 @@ public class GeneralFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                txtSinHorarios.setVisibility(View.INVISIBLE);
                                 spHorarios.setVisibility(View.VISIBLE);
                                 txtMensaje.setVisibility(View.INVISIBLE);
-                                txtSinHorarios.setVisibility(View.INVISIBLE);
                                 if(!codHorario.isEmpty()) {
                                     cargarSpiner(ArregloSpiner(resHorarios,1),1);
                                     if(!arregloReportes.isEmpty()) cargarRecyclerView(arregloReportes);
                                     else{
+                                        txtMensaje.setText("No hay alumnos para este horario");
                                         txtMensaje.setVisibility(View.VISIBLE);
                                     }
                                 }else{
                                     spHorarios.setVisibility(View.INVISIBLE);
-                                    txtMensaje.setVisibility(View.VISIBLE);
                                     txtSinHorarios.setVisibility(View.VISIBLE);
                                     txtMensaje.setText("No tiene horarios para este complejo");
+                                    txtMensaje.setVisibility(View.VISIBLE);
                                 }
                             }
                         });
@@ -215,12 +214,18 @@ public class GeneralFragment extends Fragment {
                     @Override
                     public void run() {
                         String resAlumnos = traerAlumnos(codigoEvento,codHorario);
-                        final ArrayList<ReporteGeneral> listaAlumnos = ArregloLista(resAlumnos);
-                        final String resReportes = traerReportes(codigoEvento, codigoDocente, fechaInicio, fechaFin, codComplejo, codHorario);
+                        ArrayList<ReporteGeneral> listaAlumnos = ArregloLista(resAlumnos);
+                        String resReportes = traerReportes(codigoEvento, codigoDocente, fechaInicio, fechaFin, codComplejo, codHorario);
+                        final ArrayList<ReporteGeneral> arregloReportes = ArregloReportes(listaAlumnos, resReportes);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                cargarRecyclerView(ArregloReportes(listaAlumnos, resReportes));
+                                txtMensaje.setVisibility(View.INVISIBLE);
+                                if(!arregloReportes.isEmpty()) cargarRecyclerView(arregloReportes);
+                                else{
+                                    txtMensaje.setText("No hay alumnos para este horario");
+                                    txtMensaje.setVisibility(View.VISIBLE);
+                                }
                             }
                         });
                     }

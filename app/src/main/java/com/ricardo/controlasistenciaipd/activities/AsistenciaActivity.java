@@ -173,21 +173,22 @@ public class AsistenciaActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 spHorarios.setVisibility(View.VISIBLE);
+                                txtSinHorarios.setVisibility(View.INVISIBLE);
                                 txtMensajeRecycler.setVisibility(View.INVISIBLE);
                                 btnContinuar.setVisibility(View.VISIBLE);
-                                txtSinHorarios.setVisibility(View.INVISIBLE);
                                 if(!codHorario.isEmpty()) {
                                     cargarSpiner(ArregloSpiner(resHorarios,1),1);
                                     if(!arregloAlumnos.isEmpty()) cargarRecyclerView(arregloAlumnos);
                                     else{
+                                        txtMensajeRecycler.setText("No hay alumnos registrados para este horario");
                                         txtMensajeRecycler.setVisibility(View.VISIBLE);
                                         btnContinuar.setVisibility(View.INVISIBLE);
                                     }
                                 }else{
                                     spHorarios.setVisibility(View.INVISIBLE);
-                                    txtMensajeRecycler.setVisibility(View.VISIBLE);
                                     txtSinHorarios.setVisibility(View.VISIBLE);
-                                    txtMensajeRecycler.setText("No tiene horarios para este complejo");
+                                    txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                    txtMensajeRecycler.setText("No tiene horarios disponibles para este complejo");
                                     btnContinuar.setVisibility(View.INVISIBLE);
                                 }
                             }
@@ -208,11 +209,19 @@ public class AsistenciaActivity extends AppCompatActivity {
                 Thread tr = new Thread() {
                     @Override
                     public void run() {
-                        final String resAlumnos = traerAlumnos(codEvento,codHorario);
+                        String resAlumnos = traerAlumnos(codEvento,codHorario);
+                        final ArrayList<Alumno> arregloAlumnos = ArregloLista(resAlumnos);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                cargarRecyclerView(ArregloLista(resAlumnos));
+                                txtMensajeRecycler.setVisibility(View.INVISIBLE);
+                                btnContinuar.setVisibility(View.VISIBLE);
+                                if(!arregloAlumnos.isEmpty()) cargarRecyclerView(arregloAlumnos);
+                                else{
+                                    txtMensajeRecycler.setText("No hay alumnos registrados para este horario");
+                                    txtMensajeRecycler.setVisibility(View.VISIBLE);
+                                    btnContinuar.setVisibility(View.INVISIBLE);
+                                }
                             }
                         });
                     }
